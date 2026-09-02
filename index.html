@@ -344,6 +344,17 @@ async function getTemperature(){
         "https://api-open.data.gov.sg/v2/real-time/api/air-temperature"
         );
 
+        if(response.status === 429){
+
+            document.getElementById(
+            "temperature"
+            ).innerText =
+            "Rate Limited";
+
+            return;
+
+        }
+
         const data =
         await response.json();
 
@@ -351,9 +362,6 @@ async function getTemperature(){
         data.data.readings[0]
         .data[0]
         .value;
-
-        currentTemperature =
-        value;
 
         document.getElementById(
         "temperature"
@@ -374,6 +382,8 @@ async function getTemperature(){
     }
 
 }
+
+
 /* Humidity */
 
 async function getHumidity(){
@@ -384,6 +394,17 @@ async function getHumidity(){
         await fetch(
         "https://api-open.data.gov.sg/v2/real-time/api/relative-humidity"
         );
+
+        if(response.status === 429){
+
+            document.getElementById(
+            "humidity"
+            ).innerText =
+            "Rate Limited";
+
+            return;
+
+        }
 
         const data =
         await response.json();
@@ -396,7 +417,7 @@ async function getHumidity(){
         document.getElementById(
         "humidity"
         ).innerText =
-        value + "%";
+        value.toFixed(1) + "%";
 
     }
 
@@ -446,7 +467,7 @@ async function getRainfall(){
         document.getElementById(
         "rainfall"
         ).innerText =
-        value + " mm";
+        value.toFixed(1) + " mm";
 
     }
 
