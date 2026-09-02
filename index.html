@@ -199,23 +199,46 @@ async function getPSI(){
         const data =
         await response.json();
 
-        currentPSI =
-        data.data.items[0]
-        .readings
-        .psi_twenty_four_hourly
-        .national;
+        console.log("PSI DATA", data);
 
-        document.getElementById("psi")
-            .innerText =
+        // Safer parser
+
+        const record =
+        data?.data?.items?.[0];
+
+        if(record){
+
+            currentPSI =
+            record.readings
+            .psi_twenty_four_hourly
+            .national;
+
+            document.getElementById(
+            "psi"
+            ).innerText =
             currentPSI;
 
+        }
+        else{
+
+            document.getElementById(
+            "psi"
+            ).innerText =
+            "N/A";
+
+        }
+
     }
+
     catch(error){
 
         console.error(error);
 
-        document.getElementById("psi")
-            .innerText = "N/A";
+        document.getElementById(
+        "psi"
+        ).innerText =
+        "N/A";
+
     }
 
 }
@@ -234,33 +257,74 @@ async function getForecast(){
         const data =
         await response.json();
 
-        const forecasts =
-        data.data.records[0]
-        .forecasts;
+        console.log("FORECAST DATA", data);
 
-        const cck =
-        forecasts.find(
-        x => x.area === "Choa Chu Kang"
-        );
+        // Find whichever section exists
 
-        if(cck){
+        let forecasts = [];
 
-            currentForecast =
-            cck.forecast;
+        if(data?.data?.items?.[0]?.forecasts){
 
-            document.getElementById("forecast")
-                .innerText =
-                currentForecast;
+            forecasts =
+            data.data.items[0].forecasts;
+
+        }
+        else if(data?.data?.records?.[0]?.forecasts){
+
+            forecasts =
+            data.data.records[0].forecasts;
+
+        }
+
+        if(
+            forecasts.length > 0
+        ){
+
+            const cck =
+            forecasts.find(
+            x =>
+            x.area === "Choa Chu Kang"
+            );
+
+            if(cck){
+
+                currentForecast =
+                cck.forecast;
+
+            }
+            else{
+
+                currentForecast =
+                forecasts[0].forecast;
+
+            }
+
+            document.getElementById(
+            "forecast"
+            ).innerText =
+            currentForecast;
+
+        }
+        else{
+
+            document.getElementById(
+            "forecast"
+            ).innerText =
+            "No Forecast";
 
         }
 
     }
+
     catch(error){
 
         console.error(error);
 
-        document.getElementById("forecast")
-            .innerText = "N/A";
+        document.getElementById(
+        "forecast"
+        ).innerText =
+        "N/A";
+
     }
 
 }
