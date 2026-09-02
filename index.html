@@ -201,12 +201,12 @@ async function getPSI(){
 
         console.log("PSI DATA", data);
 
-        // Display the top-level keys
+        // Show the keys under data.data
 
         document.getElementById(
         "psi"
         ).innerText =
-        Object.keys(data).join(",");
+        Object.keys(data.data).join(",");
 
     }
 
@@ -222,6 +222,7 @@ async function getPSI(){
     }
 
 }
+
 
 /* FORECAST */
 
