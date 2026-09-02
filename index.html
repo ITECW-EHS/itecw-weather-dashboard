@@ -201,12 +201,16 @@ async function getPSI(){
 
         console.log("PSI DATA", data);
 
-        // Show the keys under data.data
+        currentPSI =
+        data.data.items[0]
+        .readings
+        .psi_twenty_four_hourly
+        .national;
 
         document.getElementById(
         "psi"
         ).innerText =
-        Object.keys(data.data).join(",");
+        currentPSI;
 
     }
 
