@@ -347,15 +347,18 @@ async function getTemperature(){
         const data =
         await response.json();
 
-        console.log(
-        "TEMPERATURE DATA",
-        data
-        );
+        const value =
+        data.data.readings[0]
+        .data[0]
+        .value;
+
+        currentTemperature =
+        value;
 
         document.getElementById(
         "temperature"
         ).innerText =
-        "API OK";
+        value.toFixed(1) + "°C";
 
     }
 
@@ -371,7 +374,6 @@ async function getTemperature(){
     }
 
 }
-
 /* Humidity */
 
 async function getHumidity(){
