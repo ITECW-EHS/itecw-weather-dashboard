@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>ITE CW Operations Dashboard</title>
+<title>ITE College West Operations Dashboard</title>
 
 <style>
-
 body{
     margin:0;
     padding:20px;
@@ -25,128 +22,74 @@ body{
 }
 
 #banner{
-
     margin:20px 0;
     padding:20px;
-
     border-radius:12px;
-
     text-align:center;
-
     font-size:28px;
     font-weight:bold;
-
+    background:#666;
 }
 
 .grid{
-
     display:grid;
-
     gap:15px;
-
     grid-template-columns:
     repeat(auto-fit,minmax(250px,1fr));
-
 }
 
 .card{
-
     background:#22345f;
-
     padding:20px;
-
     border-radius:12px;
-
 }
 
 .value{
-
     font-size:42px;
     font-weight:bold;
-
 }
-
 </style>
 
 </head>
-
 <body>
 
 <div class="header">
-
-<h1>ITE College West Operations Dashboard</h1>
-
-<div id="clock"></div>
-
+    <h1>ITE College West Operations Dashboard</h1>
+    <div id="clock"></div>
 </div>
 
 <div id="banner">
-
 Loading...
-
 </div>
 
 <div class="grid">
 
-<div class="card">
+    <div class="card">
+        <h3>WBGT</h3>
+        <div id="wbgt" class="value">Loading...</div>
+        <div id="wbgtStatus"></div>
+    </div>
 
-<h3>WBGT</h3>
+    <div class="card">
+        <h3>Lightning</h3>
+        <div id="lightning" class="value">Loading...</div>
+    </div>
 
-<div id="wbgt"
-class="value">
+    <div class="card">
+        <h3>PSI</h3>
+        <div id="psi" class="value">Loading...</div>
+    </div>
 
-Loading...
-
-</div>
-
-<div id="wbgtStatus"></div>
-
-</div>
-
-<div class="card">
-
-<h3>Lightning</h3>
-
-<div id="lightning"
-class="value">
-
-Loading...
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h3>PSI</h3>
-
-<div id="psi"
-class="value">
-
-Loading...
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h3>Forecast</h3>
-
-<div id="forecast">
-
-Loading...
-
-</div>
-
-</div>
+    <div class="card">
+        <h3>Forecast</h3>
+        <div id="forecast">Loading...</div>
+    </div>
 
 </div>
 
 <br>
 
 Last Updated:
-
 <span id="lastUpdated"></span>
 
 <script>
@@ -160,18 +103,13 @@ let currentForecast = "";
 
 function updateTime(){
 
-    const now =
-    new Date();
+    const now = new Date();
 
-    document.getElementById(
-    "clock"
-    ).innerText =
-    now.toLocaleString();
+    document.getElementById("clock").innerText =
+        now.toLocaleString();
 
-    document.getElementById(
-    "lastUpdated"
-    ).innerText =
-    now.toLocaleString();
+    document.getElementById("lastUpdated").innerText =
+        now.toLocaleString();
 
 }
 
@@ -179,31 +117,38 @@ function updateTime(){
 
 async function getWBGT(){
 
-    const response =
-    await fetch(
-    "https://api-open.data.gov.sg/v2/real-time/api/weather?api=wbgt"
-    );
+    try{
 
-    const data =
-    await response.json();
+        const response =
+        await fetch(
+        "https://api-open.data.gov.sg/v2/real-time/api/weather?api=wbgt"
+        );
 
-    const reading =
-    data.data.records[0]
-    .item.readings[0];
+        const data =
+        await response.json();
 
-    currentWBGT =
-    Number(reading.wbgt);
+        const reading =
+        data.data.records[0].item.readings[0];
 
-    document.getElementById(
-    "wbgt"
-    ).innerText =
-    currentWBGT.toFixed(1)
-    + "°C";
+        currentWBGT =
+        Number(reading.wbgt);
 
-    document.getElementById(
-    "wbgtStatus"
-    ).innerText =
-    reading.heatStress;
+        document.getElementById("wbgt")
+            .innerText =
+            currentWBGT.toFixed(1) + "°C";
+
+        document.getElementById("wbgtStatus")
+            .innerText =
+            reading.heatStress;
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        document.getElementById("wbgt")
+            .innerText = "N/A";
+    }
 
 }
 
@@ -211,22 +156,32 @@ async function getWBGT(){
 
 async function getLightning(){
 
-    const response =
-    await fetch(
-    "https://api-open.data.gov.sg/v2/real-time/api/weather?api=lightning"
-    );
+    try{
 
-    const data =
-    await response.json();
+        const response =
+        await fetch(
+        "https://api-open.data.gov.sg/v2/real-time/api/weather?api=lightning"
+        );
 
-    lightningCount =
-    data.data.records[0]
-    .item.readings.length;
+        const data =
+        await response.json();
 
-    document.getElementById(
-    "lightning"
-    ).innerText =
-    lightningCount;
+        lightningCount =
+        data.data.records[0]
+        .item.readings.length;
+
+        document.getElementById("lightning")
+            .innerText =
+            lightningCount;
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        document.getElementById("lightning")
+            .innerText = "N/A";
+    }
 
 }
 
@@ -244,32 +199,24 @@ async function getPSI(){
         const data =
         await response.json();
 
-        console.log("PSI", data);
+        currentPSI =
+        data.data.items[0]
+        .readings
+        .psi_twenty_four_hourly
+        .national;
 
-        const psi =
-        data.data.records[0]
-        .item.readings.psiTwentyFourHourly.national;
-
-        currentPSI = psi;
-
-        document.getElementById(
-        "psi"
-        ).innerText =
-        psi;
+        document.getElementById("psi")
+            .innerText =
+            currentPSI;
 
     }
-
     catch(error){
 
         console.error(error);
 
-        document.getElementById(
-        "psi"
-        ).innerText =
-        "N/A";
-
+        document.getElementById("psi")
+            .innerText = "N/A";
     }
-
 
 }
 
@@ -287,16 +234,13 @@ async function getForecast(){
         const data =
         await response.json();
 
-        console.log("Forecast",data);
-
         const forecasts =
         data.data.records[0]
         .forecasts;
 
         const cck =
         forecasts.find(
-        x => x.area ===
-        "Choa Chu Kang"
+        x => x.area === "Choa Chu Kang"
         );
 
         if(cck){
@@ -304,66 +248,29 @@ async function getForecast(){
             currentForecast =
             cck.forecast;
 
-            document.getElementById(
-            "forecast"
-            ).innerText =
-            currentForecast;
+            document.getElementById("forecast")
+                .innerText =
+                currentForecast;
 
         }
 
     }
-
     catch(error){
 
         console.error(error);
 
-        document.getElementById(
-        "forecast"
-        ).innerText =
-        "N/A";
-
-    }
-
-}
-    
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        document.getElementById(
-        "forecast"
-        ).innerText =
-        "N/A";
-
+        document.getElementById("forecast")
+            .innerText = "N/A";
     }
 
 }
 
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        document.getElementById(
-        "forecast"
-        ).innerText =
-        "N/A";
-
-    }
-
-}
-
-/* SAFETY STATUS */
+/* RAG */
 
 function updateBanner(){
 
     const banner =
-    document.getElementById(
-    "banner"
-    );
+    document.getElementById("banner");
 
     if(
         lightningCount > 0 ||
@@ -381,7 +288,6 @@ function updateBanner(){
         "#000";
 
     }
-
     else if(
         currentWBGT >= 31 ||
         currentPSI > 50
@@ -397,7 +303,6 @@ function updateBanner(){
         "#000";
 
     }
-
     else{
 
         banner.innerHTML =
@@ -411,7 +316,6 @@ function updateBanner(){
 
     }
 
-
 }
 
 /* MAIN */
@@ -419,21 +323,16 @@ function updateBanner(){
 async function refreshDashboard(){
 
     await Promise.all([
-
         getWBGT(),
         getLightning(),
         getPSI(),
         getForecast()
-
     ]);
 
     updateBanner();
     updateTime();
 
-
 }
-
-/* START */
 
 document.addEventListener(
 "DOMContentLoaded",
@@ -456,5 +355,4 @@ function(){
 </script>
 
 </body>
-
 </html>
