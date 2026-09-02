@@ -305,7 +305,11 @@ async function getForecast(){
         const data =
         await response.json();
 
+        console.log("FORECAST DATA", data);
+
         let forecasts = [];
+
+        // Handle both possible API structures
 
         if(data?.data?.records?.[0]?.forecasts){
 
@@ -314,17 +318,24 @@ async function getForecast(){
 
         }
 
+        else if(data?.data?.items?.[0]?.forecasts){
+
+            forecasts =
+            data.data.items[0].forecasts;
+
+        }
+
         if(forecasts.length > 0){
 
-            const cck =
+            const cckForecast =
             forecasts.find(
-            x => x.area === "Choa Chu Kang"
+                f => f.area === "Choa Chu Kang"
             );
 
-            if(cck){
+            if(cckForecast){
 
                 currentForecast =
-                cck.forecast;
+                cckForecast.forecast;
 
             }
             else{
@@ -340,12 +351,23 @@ async function getForecast(){
             currentForecast;
 
         }
+        else{
+
+            document.getElementById(
+            "forecast"
+            ).innerText =
+            "No Forecast Available";
+
+        }
 
     }
 
     catch(error){
 
-        console.error(error);
+        console.error(
+        "Forecast Error",
+        error
+        );
 
         document.getElementById(
         "forecast"
