@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>ITE College West Operations Dashboard</title>
 
 <style>
+
 body{
     margin:0;
     padding:20px;
@@ -28,7 +30,6 @@ body{
     text-align:center;
     font-size:28px;
     font-weight:bold;
-    background:#666;
 }
 
 .grid{
@@ -48,14 +49,24 @@ body{
     font-size:42px;
     font-weight:bold;
 }
+
+.status{
+    margin-top:10px;
+    font-weight:bold;
+}
+
 </style>
 
 </head>
+
 <body>
 
 <div class="header">
-    <h1>ITE College West Operations Dashboard</h1>
-    <div id="clock"></div>
+
+<h1>ITE College West Operations Dashboard</h1>
+
+<div id="clock"></div>
+
 </div>
 
 <div id="banner">
@@ -64,26 +75,65 @@ Loading...
 
 <div class="grid">
 
-    <div class="card">
-        <h3>WBGT</h3>
-        <div id="wbgt" class="value">Loading...</div>
-        <div id="wbgtStatus"></div>
+<div class="card">
+
+<h3>WBGT</h3>
+
+<div id="wbgt"
+class="value">
+Loading...
+</div>
+
+<div id="wbgtStatus"
+class="status">
+Loading...
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>Lightning</h3>
+
+<div id="lightning"
+class="value">
+Loading...
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>PSI (West)</h3>
+
+<div id="psi"
+class="value">
+Loading...
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>2-Hour Forecast</h3>
+
+<div id="forecast">
+Loading...
+</div>
+
+</div>
+
+<div class="card">
+
+    <h3>Outdoor Work Advisory</h3>
+
+    <div id="advisory">
+
+        Loading...
+
     </div>
 
-    <div class="card">
-        <h3>Lightning</h3>
-        <div id="lightning" class="value">Loading...</div>
-    </div>
-
-    <div class="card">
-        <h3>PSI</h3>
-        <div id="psi" class="value">Loading...</div>
-    </div>
-
-    <div class="card">
-        <h3>Forecast</h3>
-        <div id="forecast">Loading...</div>
-    </div>
+</div>
 
 </div>
 
@@ -105,11 +155,15 @@ function updateTime(){
 
     const now = new Date();
 
-    document.getElementById("clock").innerText =
-        now.toLocaleString();
+    document.getElementById(
+    "clock"
+    ).innerText =
+    now.toLocaleString();
 
-    document.getElementById("lastUpdated").innerText =
-        now.toLocaleString();
+    document.getElementById(
+    "lastUpdated"
+    ).innerText =
+    now.toLocaleString();
 
 }
 
@@ -128,26 +182,33 @@ async function getWBGT(){
         await response.json();
 
         const reading =
-        data.data.records[0].item.readings[0];
+        data.data.records[0]
+        .item.readings[0];
 
         currentWBGT =
         Number(reading.wbgt);
 
-        document.getElementById("wbgt")
-            .innerText =
-            currentWBGT.toFixed(1) + "°C";
+        document.getElementById(
+        "wbgt"
+        ).innerText =
+        currentWBGT.toFixed(1) + "°C";
 
-        document.getElementById("wbgtStatus")
-            .innerText =
-            reading.heatStress;
+        document.getElementById(
+        "wbgtStatus"
+        ).innerText =
+        reading.heatStress;
 
     }
+
     catch(error){
 
         console.error(error);
 
-        document.getElementById("wbgt")
-            .innerText = "N/A";
+        document.getElementById(
+        "wbgt"
+        ).innerText =
+        "N/A";
+
     }
 
 }
@@ -170,17 +231,22 @@ async function getLightning(){
         data.data.records[0]
         .item.readings.length;
 
-        document.getElementById("lightning")
-            .innerText =
-            lightningCount;
+        document.getElementById(
+        "lightning"
+        ).innerText =
+        lightningCount;
 
     }
+
     catch(error){
 
         console.error(error);
 
-        document.getElementById("lightning")
-            .innerText = "N/A";
+        document.getElementById(
+        "lightning"
+        ).innerText =
+        "N/A";
+
     }
 
 }
@@ -225,7 +291,6 @@ async function getPSI(){
 
 }
 
-
 /* FORECAST */
 
 async function getForecast(){
@@ -240,33 +305,20 @@ async function getForecast(){
         const data =
         await response.json();
 
-        console.log("FORECAST DATA", data);
-
-        // Find whichever section exists
-
         let forecasts = [];
 
-        if(data?.data?.items?.[0]?.forecasts){
-
-            forecasts =
-            data.data.items[0].forecasts;
-
-        }
-        else if(data?.data?.records?.[0]?.forecasts){
+        if(data?.data?.records?.[0]?.forecasts){
 
             forecasts =
             data.data.records[0].forecasts;
 
         }
 
-        if(
-            forecasts.length > 0
-        ){
+        if(forecasts.length > 0){
 
             const cck =
             forecasts.find(
-            x =>
-            x.area === "Choa Chu Kang"
+            x => x.area === "Choa Chu Kang"
             );
 
             if(cck){
@@ -288,14 +340,6 @@ async function getForecast(){
             currentForecast;
 
         }
-        else{
-
-            document.getElementById(
-            "forecast"
-            ).innerText =
-            "No Forecast";
-
-        }
 
     }
 
@@ -312,44 +356,78 @@ async function getForecast(){
 
 }
 
-/* RAG */
+/* SAFETY LOGIC */
 
 function updateBanner(){
 
     const banner =
-    document.getElementById("banner");
+    document.getElementById(
+    "banner"
+    );
+
+    const advisory =
+    document.getElementById(
+    "advisory"
+    );
+
+    /* RED */
 
     if(
         lightningCount > 0 ||
         currentWBGT >= 32 ||
-        currentPSI > 100
+        currentPSI >= 100
     ){
 
         banner.innerHTML =
-        "🔴 REVIEW OR SUSPEND OUTDOOR WORK";
+        "🔴 STOP WORK / REVIEW ACTIVITIES";
 
         banner.style.background =
-        "#ffdddd";
+        "#ef4444";
 
         banner.style.color =
-        "#000";
+        "#ffffff";
+
+        advisory.innerHTML =
+        `
+        ❌ Roof Work<br>
+        ❌ Ladder Work<br>
+        ❌ Outdoor Events<br>
+        ❌ Sports Activities<br>
+        ✅ Seek Shelter
+        `;
 
     }
+
+    /* AMBER */
+
     else if(
         currentWBGT >= 31 ||
-        currentPSI > 50
+        currentPSI >= 50 ||
+        currentForecast.toLowerCase().includes("shower") ||
+        currentForecast.toLowerCase().includes("thunder")
     ){
 
         banner.innerHTML =
         "🟠 PROCEED WITH CONTROLS";
 
         banner.style.background =
-        "#fff2cc";
+        "#f59e0b";
 
         banner.style.color =
-        "#000";
+        "#000000";
+
+        advisory.innerHTML =
+        `
+        ⚠ Increase Hydration<br>
+        ⚠ Monitor Weather<br>
+        ⚠ Prepare Shelter<br>
+        ⚠ Review Activities
+        `;
 
     }
+
+    /* GREEN */
+
     else{
 
         banner.innerHTML =
@@ -359,7 +437,15 @@ function updateBanner(){
         "#22c55e";
 
         banner.style.color =
-        "#000";
+        "#000000";
+
+        advisory.innerHTML =
+        `
+        ✅ Roof Work<br>
+        ✅ Ladder Work<br>
+        ✅ Outdoor Events<br>
+        ✅ Sports Activities
+        `;
 
     }
 
@@ -370,16 +456,20 @@ function updateBanner(){
 async function refreshDashboard(){
 
     await Promise.all([
+
         getWBGT(),
         getLightning(),
         getPSI(),
         getForecast()
+
     ]);
 
     updateBanner();
     updateTime();
 
 }
+
+/* START */
 
 document.addEventListener(
 "DOMContentLoaded",
