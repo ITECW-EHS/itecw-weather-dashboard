@@ -115,6 +115,45 @@ Loading...
 
 <div class="card">
 
+    <h3>Temperature</h3>
+
+    <div id="temperature"
+    class="value">
+
+        Loading...
+
+    </div>
+
+</div>
+
+<div class="card">
+
+    <h3>Humidity</h3>
+
+    <div id="humidity"
+    class="value">
+
+        Loading...
+
+    </div>
+
+</div>
+
+<div class="card">
+
+    <h3>Rainfall</h3>
+
+    <div id="rainfall"
+    class="value">
+
+        Loading...
+
+    </div>
+
+</div>    
+    
+<div class="card">
+
 <h3>2-Hour Forecast</h3>
 
 <div id="forecast">
@@ -148,7 +187,10 @@ let currentWBGT = 0;
 let currentPSI = 0;
 let lightningCount = 0;
 let currentForecast = "";
-
+let currentTemperature = 0;
+let currentHumidity = 0;
+let currentRainfall = 0;
+    
 /* CLOCK */
 
 function updateTime(){
@@ -290,6 +332,113 @@ async function getPSI(){
     }
 
 }
+
+/* Temperature */
+    
+async function getTemperature(){
+
+    try{
+
+        const response =
+        await fetch(
+        "https://api-open.data.gov.sg/v2/real-time/api/air-temperature"
+        );
+
+        const data =
+        await response.json();
+
+        const reading =
+        data.data.readings[0];
+
+        currentTemperature =
+        reading.value;
+
+        document.getElementById(
+        "temperature"
+        ).innerText =
+        currentTemperature + "°C";
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+/* Humidity */
+
+async function getHumidity(){
+
+    try{
+
+        const response =
+        await fetch(
+        "https://api-open.data.gov.sg/v2/real-time/api/relative-humidity"
+        );
+
+        const data =
+        await response.json();
+
+        const reading =
+        data.data.readings[0];
+
+        currentHumidity =
+        reading.value;
+
+        document.getElementById(
+        "humidity"
+        ).innerText =
+        currentHumidity + "%";
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+/* Rainfall */
+
+async function getRainfall(){
+
+    try{
+
+        const response =
+        await fetch(
+        "https://api-open.data.gov.sg/v2/real-time/api/rainfall"
+        );
+
+        const data =
+        await response.json();
+
+        const reading =
+        data.data.readings[0];
+
+        currentRainfall =
+        reading.value;
+
+        document.getElementById(
+        "rainfall"
+        ).innerText =
+        currentRainfall + " mm";
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+
 
 /* FORECAST */
 
@@ -482,9 +631,13 @@ async function refreshDashboard(){
         getWBGT(),
         getLightning(),
         getPSI(),
-        getForecast()
+        getForecast(),
 
-    ]);
+        getTemperature(),
+        getHumidity(),
+        getRainfall()
+
+]);
 
     updateBanner();
     updateTime();
