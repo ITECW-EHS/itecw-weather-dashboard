@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
 
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,13 +14,31 @@ body{
     padding:20px;
     background:#0f172a;
     color:white;
-    font-family:Segoe UI,Arial;
+    font-family:Segoe UI, Arial, sans-serif;
 }
 
 .header{
     display:flex;
     justify-content:space-between;
     align-items:center;
+    margin-bottom:20px;
+}
+
+#banner{
+    background:#22c55e;
+    color:black;
+    padding:20px;
+    border-radius:12px;
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:15px;
 }
 
 .card{
@@ -29,16 +47,97 @@ body{
     border-radius:12px;
 }
 
-.grid{
-    display:grid;
-    gap:15px;
-
-    grid-template-columns:
-    repeat(auto-fit,minmax(250px,1fr));
+.card h3{
+    margin-top:0;
 }
 
-#banner{
-    padding:20px;
-    text-align:center;
-    font-size:28px;
- 
+.value{
+    font-size:32px;
+    font-weight:bold;
+}
+
+.footer{
+    margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+    <h1>ITE College West Operations Dashboard</h1>
+    <div id="clock"></div>
+</div>
+
+<div id="banner">
+🟢 SAFE TO PROCEED
+</div>
+
+<div class="grid">
+
+<div class="card">
+    <h3>WBGT</h3>
+    <div id="wbgt" class="value">29.5°C</div>
+</div>
+
+<div class="card">
+    <h3>Lightning</h3>
+    <div id="lightning" class="value">0</div>
+</div>
+
+<div class="card">
+    <h3>PSI</h3>
+    <div id="psi" class="value">42</div>
+</div>
+
+<div class="card">
+    <h3>2-Hour Forecast</h3>
+    <div id="forecast">Partly Cloudy</div>
+</div>
+
+<div class="card">
+    <h3>Outdoor Work Recommendation</h3>
+    <div id="recommendation">
+        ✓ Outdoor work may proceed<br>
+        ✓ Continue monitoring<br>
+        ✓ Maintain hydration
+    </div>
+</div>
+
+<div class="card">
+    <h3>Campus Advisory</h3>
+    <div id="advisory">
+        Normal Operations
+    </div>
+</div>
+
+</div>
+
+<div class="footer">
+    Last Updated:
+    <span id="lastUpdated"></span>
+</div>
+
+<script>
+
+function updateTime(){
+
+    document.getElementById("clock").innerText =
+    new Date().toLocaleString();
+
+    document.getElementById("lastUpdated").innerText =
+    new Date().toLocaleString();
+
+}
+
+updateTime();
+
+setInterval(updateTime,1000);
+
+</script>
+
+</body>
+</html>
+``
