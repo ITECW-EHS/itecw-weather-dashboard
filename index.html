@@ -201,12 +201,12 @@ async function getPSI(){
 
         console.log("PSI DATA", data);
 
-        // Show the structure temporarily
+        // Display the top-level keys
 
         document.getElementById(
         "psi"
         ).innerText =
-        JSON.stringify(data.data).substring(0,60);
+        Object.keys(data).join(",");
 
     }
 
