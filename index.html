@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,51 +11,43 @@
 body{
     margin:0;
     padding:20px;
-    background:#0b1635;
+    background:#081633;
     color:white;
-    font-family:'Segoe UI',sans-serif;
+    font-family:Segoe UI, Arial, sans-serif;
 }
 
 .header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:20px;
+}
+
+#banner{
+    margin:20px 0;
+    padding:20px;
+    border-radius:12px;
+    background:#22c55e;
+    color:black;
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
 }
 
 .grid{
     display:grid;
-    grid-template-columns:
-    repeat(auto-fit,minmax(250px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
     gap:15px;
 }
 
 .card{
-    background:#1e2d4d;
+    background:#1f2f50;
     border-radius:12px;
     padding:20px;
-}
-
-.card h3{
-    margin-top:0;
 }
 
 .value{
     font-size:42px;
     font-weight:bold;
-}
-
-#banner{
-    margin-bottom:20px;
-    padding:20px;
-    text-align:center;
-    border-radius:12px;
-    font-size:32px;
-    font-weight:bold;
-}
-
-.footer{
-    margin-top:20px;
 }
 
 </style>
@@ -67,294 +57,87 @@ body{
 <body>
 
 <div class="header">
-
-<h1>
-ITE College West
-Operations Dashboard
-</h1>
-
+<h1>ITE College West Operations Dashboard</h1>
 <div id="clock"></div>
-
 </div>
 
 <div id="banner">
-
-Loading...
-
+🟢 SAFE TO PROCEED
 </div>
 
 <div class="grid">
 
 <div class="card">
-
 <h3>WBGT</h3>
-
-<div id="wbgt"
-class="value">
-
-Loading...
-
-</div>
-
+<div id="wbgt" class="value">Loading...</div>
 </div>
 
 <div class="card">
-
 <h3>Lightning</h3>
-
-<div id="lightning"
-class="value">
-
-Loading...
-
-</div>
-
+<div id="lightning" class="value">Loading...</div>
 </div>
 
 <div class="card">
-
 <h3>PSI</h3>
-
-<div id="psi"
-class="value">
-
-Loading...
-
-</div>
-
+<div id="psi" class="value">Loading...</div>
 </div>
 
 <div class="card">
-
-<h3>2-Hour Forecast</h3>
-
-<div id="forecast">
-
-Loading...
-
+<h3>Forecast</h3>
+<div id="forecast">Loading...</div>
 </div>
 
 </div>
 
-<div class="card">
-
-<h3>
-Outdoor Work
-Recommendation
-</h3>
-
-<div id="recommendation">
-
-Loading...
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h3>
-Campus Advisory
-</h3>
-
-<div id="advisory">
-
-Normal Operations
-
-</div>
-
-</div>
-
-</div>
-
-<div class="footer">
+<br>
 
 Last Updated:
-
 <span id="lastUpdated"></span>
-
-</div>
 
 <script>
 
-let currentWBGT = 0;
-let lightningCount = 0;
-let currentPSI = 0;
-let currentForecast = "";
+function updateClock(){
 
-/* CLOCK */
+    const now = new Date();
 
-function updateTime(){
+    document.getElementById("clock").innerText =
+        now.toLocaleString();
 
-    const now =
-    new Date();
-
-    document.getElementById(
-    "clock"
-    ).innerText =
-    now.toLocaleString();
-
-    document.getElementById(
-    "lastUpdated"
-    ).innerText =
-    now.toLocaleString();
+    document.getElementById("lastUpdated").innerText =
+        now.toLocaleString();
 }
 
-/* WBGT */
+async function testLoad(){
 
-async function getWBGT(){
+    document.getElementById("wbgt")
+        .innerText = "28.4°C";
 
-    try{
+    document.getElementById("lightning")
+        .innerText = "0";
 
-        const response =
-        await fetch(
-        "https://api-open.data.gov.sg/v2/real-time/api/weather?api=wbgt"
-        );
+    document.getElementById("psi")
+        .innerText = "21";
 
-        const data =
-        await response.json();
-
-        currentWBGT =
-        Number(
-        data.data.records[0]
-        .item.readings[0]
-        .wbgt
-        );
-
-        document.getElementById(
-        "wbgt"
-        ).innerText =
-        currentWBGT.toFixed(1)
-        + "°C";
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        document.getElementById(
-        "wbgt"
-        ).innerText =
-        "N/A";
-
-    }
-
+    document.getElementById("forecast")
+        .innerText = "Partly Cloudy";
 }
 
-/* LIGHTNING */
+document.addEventListener(
+"DOMContentLoaded",
+function(){
 
-async function getLightning(){
+    updateClock();
 
-    try{
+    testLoad();
 
-        const response =
-        await fetch(
-        "https://api-open.data.gov.sg/v2/real-time/api/weather?api=lightning"
-        );
+    setInterval(
+        updateClock,
+        1000
+    );
 
-        const data =
-        await response.json();
+});
 
-        lightningCount =
-        data.data.records[0]
-        .item.readings.length;
+</script>
 
-        document.getElementById(
-        "lightning"
-        ).innerText =
-        lightningCount;
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        document.getElementById(
-        "lightning"
-        ).innerText =
-        "N/A";
-
-    }
-
-}
-
-/* PSI */
-
-async function getPSI(){
-
-    try{
-
-        const response =
-        await fetch(
-        "https://api-open.data.gov.sg/v2/real-time/api/psi"
-        );
-
-        const data =
-        await response.json();
-
-        currentPSI =
-        data.data.items[0]
-        .readings
-        .psi_twenty_four_hourly
-        .national;
-
-        document.getElementById(
-        "psi"
-        ).innerText =
-        currentPSI;
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        document.getElementById(
-        "psi"
-        ).innerText =
-        "N/A";
-
-    }
-
-}
-
-/* FORECAST */
-
-async function getForecast(){
-
-    try{
-
-        const response =
-        await fetch(
-        "https://api-open.data.gov.sg/v2/real-time/api/two-hr-forecast"
-        );
-
-        const data =
-        await response.json();
-
-        const forecasts =
-        data.data.records[0]
-        .forecasts;
-
-        const cck =
-        forecasts.find(
-        x => x.area ===
-        "Choa Chu Kang"
-        );
-
-        if(cck){
-
-            currentForecast =
-            cck.forecast;
-
-            document.getElementById(
-            "forecast"
-            ).innerText =
-            currentForecast;
-        }
-
-    }
-
-    catch(error
+</body>
+</html>
