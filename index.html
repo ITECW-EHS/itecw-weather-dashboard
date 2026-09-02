@@ -68,8 +68,32 @@ body{
 <div class="grid">
 
 <div class="card">
+
 <h3>WBGT</h3>
-<div id="wbgt" class="value">Loading...</div>
+
+<div id="wbgt"
+class="value">
+
+Loading...
+
+</div>
+
+<div id="wbgtStatus">
+
+Loading...
+
+</div>
+
+<div id="wbgtTime"
+style="
+margin-top:10px;
+font-size:12px;
+opacity:0.8;">
+
+-
+
+</div>
+
 </div>
 
 <div class="card">
@@ -107,20 +131,70 @@ function updateClock(){
         now.toLocaleString();
 }
 
-async function testLoad(){
+async function getWBGT(){
 
-    document.getElementById("wbgt")
-        .innerText = "28.4°C";
+    try{
 
-    document.getElementById("lightning")
-        .innerText = "0";
+        const response =
+        await fetch(
+        "https://api-open.data.gov.sg/v2/real-time/api/weather?api=wbgt"
+        );
 
-    document.getElementById("psi")
-        .innerText = "21";
+        const data =
+        await response.json();
 
-    document.getElementById("forecast")
-        .innerText = "Partly Cloudy";
+        const reading =
+        data.data.records[0]
+        .item.readings[0];
+
+        const wbgt =
+        Number(reading.wbgt);
+
+        const heatStress =
+        reading.heatStress;
+
+        document.getElementById("wbgt")
+        .innerText =
+        wbgt.toFixed(1) + "°C";
+
+        document.getElementById("wbgtStatus")
+        .innerText =
+        heatStress.toUpperCase();
+
+        document.getElementById("wbgtUpdate")
+        .innerText =
+        "Updated: " +
+        new Date().toLocaleTimeString();
+
+        if(heatStress === "High"){
+
+            document.getElementById("wbgtStatus")
+            .style.color = "#ef4444";
+
+        }
+        else if(heatStress === "Moderate"){
+
+            document.getElementById("wbgtStatus")
+            .style.color = "#f59e0b";
+
+        }
+        else{
+
+            document.getElementById("wbgtStatus")
+            .style.color = "#22c55e";
+
+        }
+
+    }
+    catch(err){
+
+        console.error(err);
+
+    }
+
 }
+
+
 
 document.addEventListener(
 "DOMContentLoaded",
