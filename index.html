@@ -418,28 +418,18 @@ function updateBanner(){
 
 async function refreshDashboard(){
 
-    try{
+    await Promise.all([
 
-        await Promise.all([
+        getWBGT(),
+        getLightning(),
+        getPSI(),
+        getForecast()
 
-            getWBGT(),
-            getLightning(),
-            getPSI(),
-            getForecast()
+    ]);
 
-        ]);
+    updateBanner();
+    updateTime();
 
-        updateBanner();
-
-        updateTime();
-
-    }
-
-    catch(err){
-
-        console.log(err);
-
-    }
 
 }
 
