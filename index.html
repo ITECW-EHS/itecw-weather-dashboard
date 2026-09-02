@@ -199,17 +199,11 @@ async function getPSI(){
         const data =
         await response.json();
 
-        console.log("PSI DATA", data);
-
-        // Display the structure for debugging
-
-        const item =
-        data.data.items[0];
-
         currentPSI =
-        item.readings
+        data.data.items[0]
+        .readings
         .psi_twenty_four_hourly
-        .national;
+        .west;
 
         document.getElementById(
         "psi"
@@ -220,10 +214,7 @@ async function getPSI(){
 
     catch(error){
 
-        console.error(
-        "PSI ERROR",
-        error
-        );
+        console.error(error);
 
         document.getElementById(
         "psi"
