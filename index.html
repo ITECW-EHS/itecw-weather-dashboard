@@ -201,32 +201,12 @@ async function getPSI(){
 
         console.log("PSI DATA", data);
 
-        // Safer parser
+        // Show the structure temporarily
 
-        const record =
-        data?.data?.items?.[0];
-
-        if(record){
-
-            currentPSI =
-            record.readings
-            .psi_twenty_four_hourly
-            .national;
-
-            document.getElementById(
-            "psi"
-            ).innerText =
-            currentPSI;
-
-        }
-        else{
-
-            document.getElementById(
-            "psi"
-            ).innerText =
-            "N/A";
-
-        }
+        document.getElementById(
+        "psi"
+        ).innerText =
+        JSON.stringify(data.data).substring(0,60);
 
     }
 
