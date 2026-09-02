@@ -277,33 +277,50 @@ async function getPSI(){
 
 async function getForecast(){
 
-    const response =
-    await fetch(
-    "https://api-open.data.gov.sg/v2/real-time/api/two-hr-forecast"
-    );
+    try{
 
-    const data =
-    await response.json();
+        const response =
+        await fetch(
+        "https://api-open.data.gov.sg/v2/real-time/api/two-hr-forecast"
+        );
 
-    const forecasts =
-    data.data.records[0]
-    .forecasts;
+        const data =
+        await response.json();
 
-    const cck =
-    forecasts.find(
-    x => x.area ===
-    "Choa Chu Kang"
-    );
+        console.log("Forecast",data);
 
-    if(cck){
+        const forecasts =
+        data.data.records[0]
+        .forecasts;
 
-        currentForecast =
-        cck.forecast;
+        const cck =
+        forecasts.find(
+        x => x.area ===
+        "Choa Chu Kang"
+        );
+
+        if(cck){
+
+            currentForecast =
+            cck.forecast;
+
+            document.getElementById(
+            "forecast"
+            ).innerText =
+            currentForecast;
+
+        }
+
+    }
+
+    catch(error){
+
+        console.error(error);
 
         document.getElementById(
         "forecast"
         ).innerText =
-        currentForecast;
+        "N/A";
 
     }
 
