@@ -122,22 +122,285 @@ body{
 
 <script>
 
+let currentWBGT = 0;
+let lightningCount = 0;
+let currentForecast = "";
+
+/* CLOCK */
+
 function updateTime(){
 
+    const now = new Date();
+
     document.getElementById("clock").innerText =
-    new Date().toLocaleString();
+    now.toLocaleString();
 
     document.getElementById("lastUpdated").innerText =
-    new Date().toLocaleString();
+    now.toLocaleString();
+}
+
+
+/* WBGT */
+
+async function getWBGT(){
+
+    try{
+
+        const response =
+        await fetch(
+        "https://api-open.data.gov.sg/v2/real-time/api/weather?api=wbgt"
+        );
+
+        const data =
+        await response.json();
+
+        currentWBGT =
+        Number(
+        data.data.records[0]
+        .item.readings[0]
+        .wbgt
+        );
+
+        document.getElementById("wbgt")
+        .innerText =
+        currentWBGT.toFixed(1)
+        + "°C";
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        document.getElementById("wbgt")
+        .innerText =
+        "N/A";
+
+    }
 
 }
 
-updateTime();
 
-setInterval(updateTime,1000);
+/* LIGHTNING */
+
+async function getLightning(){
+
+    try{
+
+        const response =
+        await fetch(
+        "https://api-open.data.gov.sg/v2/real-time/api/weather?api=lightning"
+        );
+
+        const data =
+        await response.json();
+
+        lightningCount =
+        data.data.records[0]
+        .item.readings.length;
+
+        document.getElementById("lightning")
+        .innerText =
+        lightningCount;
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        document.getElementById("lightning")
+        .innerText =
+        "N/A";
+
+    }
+
+}
+
+
+/* FORECAST */
+
+async function getForecast(){
+
+    try{
+
+        const response =
+        await fetch(
+        "https://api-open.data.gov.sg/v2/real-time/api/two-hr-forecast"
+        );
+
+        const data =
+        await response.json();
+
+        const forecasts =
+        data.data.records[0]
+        .forecasts;
+
+        const cck =
+        forecasts.find(
+        x => x.area ===
+        "Choa Chu Kang"
+        );
+
+        if(cck){
+
+            currentForecast =
+            cck.forecast;
+
+            document
+            .getElementById("forecast")
+            .innerText =
+            currentForecast;
+        }
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        document.getElementById("forecast")
+        .innerText =
+        "N/A";
+
+    }
+
+}
+
+
+/* RAG STATUS */
+
+function updateSafetyStatus(){
+
+    const banner =
+    document.getElementById(
+    "banner"
+    );
+
+    const recommendation =
+    document.getElementById(
+    "recommendation"
+    );
+
+    if(lightningCount > 0){
+
+        banner.innerHTML =
+        "🔴 REVIEW OR SUSPEND OUTDOOR WORK";
+
+        banner.style.background =
+        "#ffdddd";
+
+        banner.style.color =
+        "#000";
+
+        recommendation.innerHTML =
+        `
+        ⚠ Lightning Activity Detected<br>
+        ⚠ Stop Roof Work<br>
+        ⚠ Stop Ladder Work<br>
+        ⚠ Seek Shelter
+        `;
+    }
+
+    else if(currentWBGT >= 32){
+
+        banner.innerHTML =
+        "🔴 HIGH HEAT STRESS";
+
+        banner.style.background =
+        "#ffdddd";
+
+        banner.style.color =
+        "#000";
+
+        recommendation.innerHTML =
+        `
+        ⚠ Increase Hydration<br>
+        ⚠ Rest Breaks Required<br>
+        ⚠ Review Outdoor Activities
+        `;
+    }
+
+    else if(
+        currentWBGT >= 31 ||
+
+        currentForecast.toLowerCase()
+        .includes("shower") ||
+
+        currentForecast.toLowerCase()
+        .includes("thunder")
+    ){
+
+        banner.innerHTML =
+        "🟠 PROCEED WITH CONTROLS";
+
+        banner.style.background =
+        "#fff2cc";
+
+        banner.style.color =
+        "#000";
+
+        recommendation.innerHTML =
+        `
+        • Monitor Weather Conditions<br>
+        • Increase Hydration<br>
+        • Prepare Shelter
+        `;
+    }
+
+    else{
+
+        banner.innerHTML =
+        "🟢 SAFE TO PROCEED";
+
+        banner.style.background =
+        "#22c55e";
+
+        banner.style.color =
+        "#000";
+
+        recommendation.innerHTML =
+        `
+        ✓ Outdoor Work May Proceed<br>
+        ✓ Continue Monitoring<br>
+        ✓ Maintain Hydration
+        `;
+    }
+
+}
+
+
+/* MAIN REFRESH */
+
+async function refreshDashboard(){
+
+    await Promise.all([
+
+        getWBGT(),
+        getLightning(),
+        getForecast()
+
+    ]);
+
+    updateSafetyStatus();
+
+    updateTime();
+
+}
+
+
+/* START */
+
+refreshDashboard();
+
+setInterval(
+refreshDashboard,
+120000
+);
+
+setInterval(
+updateTime,
+1000
+);
 
 </script>
-
-</body>
-</html>
-``
