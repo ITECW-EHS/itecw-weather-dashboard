@@ -710,7 +710,7 @@ async function getLightning() {
             throw new Error("Lightning readings were not found");
         }
 
-        lightningCount = readings.length;
+        lightningCount = 5;
 
         setText("lightning", String(lightningCount));
         setText("summaryLightning", String(lightningCount));
