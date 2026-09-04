@@ -988,10 +988,28 @@ else{
                     : "green-text");
     });
 
-    const banner = document.getElementById("banner");
-    const advisory = document.getElementById("advisory");
+const banner = document.getElementById("banner");
+const advisory = document.getElementById("advisory");
 
+if(currentPSI !== null && currentPSI > 300){
 
+    banner.textContent =
+    "🚫 HAZARDOUS AIR QUALITY";
+
+    banner.style.background =
+    "#7f1d1d";
+
+    banner.style.color =
+    "#ffffff";
+
+    advisory.innerHTML =
+        "🚫 Minimise Outdoor Activity<br>" +
+        "🚫 Avoid prolonged outdoor exposure<br>" +
+        "🚫 Review all non-essential outdoor work<br>" +
+        "✅ Consider indoor alternatives<br>" +
+        "✅ Monitor official haze advisories";
+
+}
 else if (overallLevel === "RED") {
 
     banner.textContent =
@@ -1010,27 +1028,42 @@ else if (overallLevel === "RED") {
         "❌ Review outdoor events and sports<br>" +
         "✅ Apply the relevant site emergency or stop-work procedure";
 
-}     else if (overallLevel === "AMBER") {
-        banner.textContent = "🟠 PROCEED WITH CONTROLS";
-        banner.style.background = "#f59e0b";
-        banner.style.color = "#000000";
+}
+else if (overallLevel === "AMBER") {
 
-        advisory.innerHTML =
-            "⚠ Monitor live conditions<br>" +
-            "⚠ Apply hydration and rest controls<br>" +
-            "⚠ Confirm shelter arrangements<br>" +
-            "⚠ Review planned outdoor activities";
-    } else {
-        banner.textContent = "🟢 SAFE TO PROCEED";
-        banner.style.background = "#22c55e";
-        banner.style.color = "#000000";
+    banner.textContent =
+    "🟠 PROCEED WITH CONTROLS";
 
-        advisory.innerHTML =
-            "✅ Outdoor work may proceed under approved controls<br>" +
-            "✅ Continue weather monitoring<br>" +
-            "✅ Maintain hydration<br>" +
-            "✅ Follow the approved risk assessments and work procedures";
-    }
+    banner.style.background =
+    "#f59e0b";
+
+    banner.style.color =
+    "#000000";
+
+    advisory.innerHTML =
+        "⚠ Monitor live conditions<br>" +
+        "⚠ Apply hydration and rest controls<br>" +
+        "⚠ Confirm shelter arrangements<br>" +
+        "⚠ Review planned outdoor activities";
+
+}
+else {
+
+    banner.textContent =
+    "🟢 SAFE TO PROCEED";
+
+    banner.style.background =
+    "#22c55e";
+
+    banner.style.color =
+    "#000000";
+
+    advisory.innerHTML =
+        "✅ Outdoor work may proceed under approved controls<br>" +
+        "✅ Continue weather monitoring<br>" +
+        "✅ Maintain hydration<br>" +
+        "✅ Follow the approved risk assessments and work procedures";
+
 }
 
 /* CONTROLLED REFRESH */
