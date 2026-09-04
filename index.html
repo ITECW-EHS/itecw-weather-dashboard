@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>ITE College West Weather Dashboard v1.4</title>
+<title>ITE College West Weather Dashboard v1.5</title>
 
 <style>
 :root {
@@ -720,16 +720,30 @@ async function getPSI() {
         setText("psi", String(currentPSI));
         setText("summaryPSI", String(currentPSI));
 
-        if (currentPSI > 100) {
-            setClass("psi", "value red-text");
-            setChip("psiStatus", "Unhealthy", "#ef4444");
-        } else if (currentPSI > 50) {
-            setClass("psi", "value amber-text");
-            setChip("psiStatus", "Moderate", "#f59e0b");
-        } else {
-            setClass("psi", "value green-text");
-            setChip("psiStatus", "Good", "#22c55e");
-        }
+      if(currentPSI > 300){
+
+    setClass("psi", "value red-text");
+    setChip("psiStatus", "Hazardous", "#7f1d1d");
+
+}
+else if(currentPSI > 200){
+
+    setClass("psi", "value red-text");
+    setChip("psiStatus", "Very Unhealthy", "#ef4444");
+
+}
+else if(currentPSI > 100){
+
+    setClass("psi", "value amber-text");
+    setChip("psiStatus", "Unhealthy", "#f59e0b");
+
+}
+else{
+
+    setClass("psi", "value green-text");
+    setChip("psiStatus", "Good / Moderate", "#22c55e");
+
+}
     } catch (error) {
         showApiFailure("psi", "psiStatus", "PSI", error);
     }
@@ -875,12 +889,27 @@ function updateSafetyVisuals() {
     }
 
     if (currentPSI !== null) {
-        airRisk =
-            currentPSI > 100
-                ? "UNHEALTHY"
-                : currentPSI > 50
-                    ? "MODERATE"
-                    : "GOOD";
+        if(currentPSI > 300){
+
+    airRisk = "HAZARDOUS";
+
+}
+else if(currentPSI > 200){
+
+    airRisk = "VERY UNHEALTHY";
+
+}
+else if(currentPSI > 100){
+
+    airRisk = "UNHEALTHY";
+
+}
+else{
+
+    airRisk = "GOOD / MODERATE";
+
+}
+
     }
 
     if (lightningCount !== null) {
