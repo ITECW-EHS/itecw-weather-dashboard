@@ -925,7 +925,7 @@ else{
     const redCondition =
         lightningCount !== null && lightningCount > 0 ||
         currentWBGT !== null && currentWBGT >= 32 ||
-        currentPSI !== null && currentPSI > 100;
+        currentPSI !== null && currentPSI > 200;
 
     const amberCondition =
         currentWBGT !== null && currentWBGT >= 31 ||
@@ -952,8 +952,20 @@ else{
         ["lightningRisk",
             observedLightningRisk === "ACTIVITY DETECTED" ? "red" : "green"],
 
-        ["airRisk", airRisk === "UNHEALTHY" ? "red" :
-            airRisk === "MODERATE" ? "amber" : "green"],
+        [
+ "airRisk",
+
+ airRisk === "HAZARDOUS"
+ ? "red"
+
+ : airRisk === "VERY UNHEALTHY"
+ ? "red"
+
+ : airRisk === "UNHEALTHY"
+ ? "amber"
+
+ : "green"
+],
 
         ["weatherRisk", weatherRisk === "MONITOR" ? "amber" : "green"],
 
