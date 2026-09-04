@@ -1070,7 +1070,28 @@ else{
 const banner = document.getElementById("banner");
 const advisory = document.getElementById("advisory");
 
-if(currentPSI !== null && currentPSI > 300){
+if(lightningCount !== null && lightningCount > 0){
+
+    banner.textContent =
+    "⚡ LIGHTNING DETECTED";
+
+    banner.style.background =
+    "#dc2626";
+
+    banner.style.color =
+    "#ffffff";
+
+    advisory.innerHTML =
+        "⛔ Suspend roof works<br>" +
+        "⛔ Suspend open-field activities<br>" +
+        "⛔ Suspend outdoor sports and events<br>" +
+        "✅ Move personnel to shelter<br>" +
+        "✅ Follow site lightning safety procedures";
+
+}
+
+else if(currentPSI !== null && currentPSI > 300){
+
 
     banner.textContent =
     "🚫 HAZARDOUS AIR QUALITY";
@@ -1101,11 +1122,11 @@ else if (overallLevel === "RED") {
     "#ffffff";
 
     advisory.innerHTML =
-        "❌ Review roof works<br>" +
-        "❌ Review outdoor work activities<br>" +
-        "❌ Review open-field activities<br>" +
-        "❌ Review outdoor events and sports<br>" +
-        "✅ Apply the relevant site emergency or stop-work procedure";
+    "❌ Review outdoor work activities<br>" +
+    "❌ Review roof works<br>" +
+    "❌ Review outdoor events and sports<br>" +
+    "✅ Implement control measures<br>" +
+    "✅ Apply site emergency procedures where required";
 
 }
 else if (overallLevel === "AMBER") {
