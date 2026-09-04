@@ -243,7 +243,29 @@ body {
     animation: lightningBlink 1s infinite;
 
 }
+@keyframes bannerBlink {
 
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
+
+.banner-alert {
+
+    animation: bannerBlink 1s infinite;
+
+}
+
+    
     
 .blue-text {
     color: var(--blue);
@@ -454,11 +476,54 @@ body {
 
 <script>
 "use strict";
+/* =====================================================
+
+ITE College West Weather Dashboard
+
+Version : 1.5.3
+Release : Lightning Operations Enhancement
+
+Features
+---------
+- Hazardous PSI Advisory
+- Lightning Detection Banner
+- Blinking Lightning Alert
+- Risk Matrix
+- Test Mode Support
+
+Author
+------
+Kelvin Siow
+
+===================================================== */
+
 
 /* SETTINGS */
-
 const REFRESH_INTERVAL_MS = 300000;
 const REQUEST_GAP_MS = 1800;
+
+/* =====================================================
+   DASHBOARD TEST MODE
+
+   Purpose:
+   Simulate dashboard conditions for testing.
+
+   FALSE = Live Production Mode
+   TRUE  = Simulated Test Mode
+
+   IMPORTANT:
+   Set all test switches to FALSE before deployment.
+
+===================================================== */
+
+const TEST_MODE = {
+
+    LIGHTNING: false,
+    PSI: false,
+    WBGT: false,
+    RAINFALL: false
+
+};
 
 const API = {
     WBGT:
@@ -483,6 +548,9 @@ const API = {
         "https://api-open.data.gov.sg/v2/real-time/api/rainfall"
 };
 
+    
+
+    
 /* LIVE VALUES */
 
 let currentWBGT = null;
@@ -671,7 +739,10 @@ async function getWBGT() {
             throw new Error("WBGT reading was not found");
         }
 
-        currentWBGT = Number(reading.wbgt);
+        currentWBGT =
+    TEST_MODE.WBGT
+    ? 33.5
+    : Number(reading.wbgt);
         currentHeatStress = String(reading.heatStress || "");
 
         setText("wbgt", currentWBGT.toFixed(1) + "°C");
@@ -710,7 +781,10 @@ async function getLightning() {
             throw new Error("Lightning readings were not found");
         }
 
-        lightningCount = 5;
+        lightningCount =
+    TEST_MODE.LIGHTNING
+    ? 5
+    : readings.length;
 
         setText("lightning", String(lightningCount));
         setText("summaryLightning", String(lightningCount));
@@ -794,7 +868,10 @@ async function getPSI() {
             throw new Error("PSI West reading was not found");
         }
 
-        currentPSI = Number(value);
+        currentPSI =
+    TEST_MODE.PSI
+    ? 350
+    : Number(value);
 
         setText("psi", String(currentPSI));
         setText("summaryPSI", String(currentPSI));
@@ -883,7 +960,10 @@ async function getRainfall() {
         const payload =
             await fetchJson(API.RAINFALL, "Rainfall");
 
-        currentRainfall = firstReadingValue(payload);
+        currentRainfall =
+    TEST_MODE.RAINFALL
+    ? 20
+    : firstReadingValue(payload);
 
         setText("rainfall", currentRainfall.toFixed(1) + " mm");
 
@@ -1072,6 +1152,10 @@ const advisory = document.getElementById("advisory");
 
 if(lightningCount !== null && lightningCount > 0){
 
+    banner.classList.add(
+    "banner-alert"
+);
+    
     banner.textContent =
     "⚡ LIGHTNING DETECTED";
 
@@ -1092,6 +1176,9 @@ if(lightningCount !== null && lightningCount > 0){
 
 else if(currentPSI !== null && currentPSI > 300){
 
+    banner.classList.remove(
+    "banner-alert"
+);
 
     banner.textContent =
     "🚫 HAZARDOUS AIR QUALITY";
@@ -1112,6 +1199,10 @@ else if(currentPSI !== null && currentPSI > 300){
 }
 else if (overallLevel === "RED") {
 
+    banner.classList.remove(
+    "banner-alert"
+);
+    
     banner.textContent =
     "🔴 STOP WORK / REVIEW ACTIVITIES";
 
@@ -1131,6 +1222,10 @@ else if (overallLevel === "RED") {
 }
 else if (overallLevel === "AMBER") {
 
+    banner.classList.remove(
+    "banner-alert"
+);
+    
     banner.textContent =
     "🟠 PROCEED WITH CONTROLS";
 
@@ -1149,6 +1244,10 @@ else if (overallLevel === "AMBER") {
 }
 else {
 
+    banner.classList.remove(
+    "banner-alert"
+);
+    
     banner.textContent =
     "🟢 SAFE TO PROCEED";
 
