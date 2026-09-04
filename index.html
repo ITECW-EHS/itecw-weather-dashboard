@@ -222,7 +222,29 @@ body {
 .red-text {
     color: var(--red);
 }
+@keyframes lightningBlink {
 
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.25;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
+
+.lightning-alert {
+
+    animation: lightningBlink 1s infinite;
+
+}
+
+    
 .blue-text {
     color: var(--blue);
 }
@@ -314,7 +336,12 @@ body {
     <section class="card">
         <h2>Lightning Observations</h2>
         <div class="metric-row">
-            <span class="metric-icon">⚡</span>
+            <span
+    id="lightningIcon"
+    class="metric-icon"
+>
+    ⚡
+</span>
             <span id="lightning" class="value">Loading...</span>
         </div>
         <div id="lightningStatus" class="status-chip">Loading...</div>
@@ -688,13 +715,60 @@ async function getLightning() {
         setText("lightning", String(lightningCount));
         setText("summaryLightning", String(lightningCount));
 
-        if (lightningCount > 0) {
-            setClass("lightning", "value red-text");
-            setChip("lightningStatus", "Activity detected", "#ef4444");
-        } else {
-            setClass("lightning", "value green-text");
-            setChip("lightningStatus", "No observation", "#22c55e");
-        }
+        const lightningIcon =
+document.getElementById(
+    "lightningIcon"
+);
+
+const lightningValue =
+document.getElementById(
+    "lightning"
+);
+
+if (lightningCount > 0) {
+
+    setClass(
+        "lightning",
+        "value red-text"
+    );
+
+    setChip(
+        "lightningStatus",
+        "Activity detected",
+        "#ef4444"
+    );
+
+    lightningIcon.classList.add(
+        "lightning-alert"
+    );
+
+    lightningValue.classList.add(
+        "lightning-alert"
+    );
+
+}
+else {
+
+    setClass(
+        "lightning",
+        "value green-text"
+    );
+
+    setChip(
+        "lightningStatus",
+        "No observation",
+        "#22c55e"
+    );
+
+    lightningIcon.classList.remove(
+        "lightning-alert"
+    );
+
+    lightningValue.classList.remove(
+        "lightning-alert"
+    );
+
+}
     } catch (error) {
         showApiFailure(
             "lightning",
