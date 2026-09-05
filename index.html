@@ -1290,11 +1290,32 @@ else {
     setText("overallRisk", overallLevel);
 
     const riskIds = [
-        ["heatRisk", heatRisk === "HIGH" ? "red" :
-            heatRisk === "MODERATE" ? "amber" : "green"],
+        [
+    "heatRisk",
 
-        ["lightningRisk",
-            observedLightningRisk === "ACTIVITY DETECTED" ? "red" : "green"],
+    heatRisk === "UNKNOWN"
+        ? "grey"
+
+        : heatRisk === "HIGH"
+        ? "red"
+
+        : heatRisk === "MODERATE"
+        ? "amber"
+
+        : "green"
+],
+
+        [
+    "lightningRisk",
+
+    observedLightningRisk === "UNKNOWN"
+        ? "grey"
+
+        : observedLightningRisk === "ACTIVITY DETECTED"
+        ? "red"
+
+        : "green"
+],
 
         [
  "airRisk",
@@ -1311,7 +1332,17 @@ else {
  : "green"
 ],
 
-        ["weatherRisk", weatherRisk === "MONITOR" ? "amber" : "green"],
+        [
+    "weatherRisk",
+
+    weatherRisk === "UNKNOWN"
+        ? "grey"
+
+        : weatherRisk === "MONITOR"
+        ? "amber"
+
+        : "green"
+],
 
         [
     "overallRisk",
