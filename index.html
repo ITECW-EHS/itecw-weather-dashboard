@@ -1699,13 +1699,28 @@ if (pendingRefresh) {
 
 /* START */
 
-document.addEventListener("DOMContentLoaded", function () {
-    updateClock();
-    refreshDashboard();
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    setInterval(updateClock, 1000);
-    setInterval(refreshDashboard, REFRESH_INTERVAL_MS);
-});
+        updateClock();
+
+        renderApiHealth();
+
+        refreshDashboard();
+
+        setInterval(
+            updateClock,
+            1000
+        );
+
+        setInterval(
+            refreshDashboard,
+            REFRESH_INTERVAL_MS
+        );
+
+    }
+);
 </script>
 
 </body>
