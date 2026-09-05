@@ -563,6 +563,7 @@ let currentHumidity = null;
 let currentRainfall = null;
 
 let refreshInProgress = false;
+let pendingRefresh = false;
 let nextRefreshAt = null;
 let apiMessages = [];
 
@@ -1531,7 +1532,11 @@ else {
 /* CONTROLLED REFRESH */
 
 async function refreshDashboard() {
+
     if (refreshInProgress) {
+
+        pendingRefresh = true;
+
         return;
     }
 
@@ -1564,11 +1569,25 @@ async function refreshDashboard() {
     setText("lastUpdated", formatSingaporeDate(completedAt));
 
     nextRefreshAt =
-        new Date(completedAt.getTime() + REFRESH_INTERVAL_MS);
+    new Date(
+        completedAt.getTime() +
+        REFRESH_INTERVAL_MS
+    );
 
-    setText("nextRefresh", formatSingaporeDate(nextRefreshAt));
+setText(
+    "nextRefresh",
+    formatSingaporeDate(nextRefreshAt)
+);
 
-    refreshInProgress = false;
+refreshInProgress = false;
+
+if (pendingRefresh) {
+
+    pendingRefresh = false;
+
+    refreshDashboard();
+
+}
 }
 
 /* START */
