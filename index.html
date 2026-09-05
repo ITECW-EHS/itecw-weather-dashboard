@@ -453,8 +453,15 @@ body {
 </main>
 
 <section class="api-panel">
-    <h3>System Status</h3>
-    <div id="apiStatus">Preparing API requests...</div>
+    <h3>System Health</h3>
+
+    <div id="apiHealth">
+        Loading health status...
+    </div>
+
+    <div id="apiStatus">
+        Preparing API requests...
+    </div>
 </section>
 
 <footer class="footer">
@@ -571,7 +578,16 @@ let dashboardInitialised = false;
 let pendingRefresh = false;
 let nextRefreshAt = null;
 let apiMessages = [];
-
+let apiHealth = {
+    WBGT: "LOADING",
+    Lightning: "LOADING",
+    PSI: "LOADING",
+    Forecast: "LOADING",
+    Temperature: "LOADING",
+    Humidity: "LOADING",
+    Rainfall: "LOADING"
+};
+    
 /* HELPERS */
 
 function sleep(milliseconds) {
@@ -622,6 +638,34 @@ function setChip(id, text, colour) {
 function recordApiStatus(name, message) {
     apiMessages.push(name + ": " + message);
     setText("apiStatus", apiMessages.join(" | "));
+}
+function renderApiHealth() {
+
+    const html =
+        Object.entries(apiHealth)
+            .map(([name, status]) => {
+
+                const icon =
+                    status === "OK"
+                        ? "✅"
+
+                        : status === "RATE_LIMITED"
+                        ? "⚠️"
+
+                        : status === "UNAVAILABLE"
+                        ? "❌"
+
+                        : "🔄";
+
+                return `${icon} ${name}`;
+
+            })
+            .join("<br>");
+
+    document.getElementById(
+        "apiHealth"
+    ).innerHTML = html;
+
 }
 
 function weatherIcon(forecast) {
@@ -691,8 +735,16 @@ async function fetchJson(url, name) {
         throw new Error(payload?.errorMsg || "Invalid API response");
     }
 
-    recordApiStatus(name, "OK");
-    return payload;
+    apiHealth[name] = "OK";
+
+renderApiHealth();
+
+recordApiStatus(
+    name,
+    "OK"
+);
+
+return payload;
 }
 
 /* CLEAR FAILED METRIC */
@@ -820,7 +872,12 @@ function showApiFailure(
 
     clearFailedMetric(name);
 
-    if (error.message === "RATE_LIMITED") {
+if (error.message === "RATE_LIMITED") {
+
+    apiHealth[name] =
+        "RATE_LIMITED";
+
+    renderApiHealth();
 
         if (cardId) {
 
@@ -869,6 +926,11 @@ function showApiFailure(
 
     }
 
+apiHealth[name] =
+    "UNAVAILABLE";
+
+renderApiHealth();
+    
     recordApiStatus(
         name,
         "Unavailable"
