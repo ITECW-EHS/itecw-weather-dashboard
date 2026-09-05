@@ -1295,9 +1295,35 @@ async function getForecast() {
         }
 
         const selected =
-            forecasts.find(item => item.area === "Choa Chu Kang") ||
-            forecasts.find(item => item.area === "Tengah") ||
-            forecasts[0];
+    forecasts.find(
+        item => item.area === "Choa Chu Kang"
+    ) ||
+    forecasts.find(
+        item => item.area === "Tengah"
+    );
+
+if (!selected) {
+
+    currentForecast = "";
+
+    setText(
+        "forecast",
+        "Forecast unavailable"
+    );
+
+    setText(
+        "forecastArea",
+        "Mapping unavailable"
+    );
+
+    setText(
+        "summaryForecast",
+        "Unavailable"
+    );
+
+    return;
+
+}
 
         currentForecast =
             String(selected?.forecast || "Forecast unavailable");
@@ -1710,8 +1736,15 @@ async function refreshDashboard() {
     }
 
     refreshInProgress = true;
+
+try {
+
     apiMessages = [];
-    setText("apiStatus", "Refreshing live data...");
+
+    setText(
+        "apiStatus",
+        "Refreshing live data..."
+    );
 
     const requests = [
         getWBGT,
@@ -1750,13 +1783,18 @@ setText(
     formatSingaporeDate(nextRefreshAt)
 );
 
-refreshInProgress = false;
+}
+finally {
 
-if (pendingRefresh) {
+    refreshInProgress = false;
 
-    pendingRefresh = false;
+    if (pendingRefresh) {
 
-    refreshDashboard();
+        pendingRefresh = false;
+
+        refreshDashboard();
+
+    }
 
 }
 }
