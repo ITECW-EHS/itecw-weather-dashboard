@@ -1733,6 +1733,8 @@ async function refreshDashboard() {
 
     setText("lastUpdated", formatSingaporeDate(completedAt));
 
+    renderDashboardHealth();
+
     nextRefreshAt =
     new Date(
         completedAt.getTime() +
