@@ -1240,6 +1240,30 @@ else if(currentPSI !== null && currentPSI > 300){
         "✅ Monitor official haze advisories";
 
 }
+
+else if (overallLevel === "UNKNOWN") {
+
+    banner.classList.remove(
+        "banner-alert"
+    );
+
+    banner.textContent =
+        "⚪ LIVE DATA INCOMPLETE";
+
+    banner.style.background =
+        "#64748b";
+
+    banner.style.color =
+        "#ffffff";
+
+    advisory.innerHTML =
+        "⚠️ One or more critical data sources are unavailable<br>" +
+        "⚠️ Do not interpret missing data as safe conditions<br>" +
+        "✅ Check official weather and lightning information<br>" +
+        "✅ Apply approved site procedures and supervisor instructions";
+
+}
+    
 else if (overallLevel === "RED") {
 
     banner.classList.remove(
