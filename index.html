@@ -697,76 +697,93 @@ function clearFailedMetric(name) {
 
         case "WBGT":
 
-            currentWBGT = null;
-            currentHeatStress = "";
+    currentWBGT = null;
+    currentHeatStress = "";
 
-            setText(
-                "summaryWBGT",
-                "N/A"
-            );
+    setText(
+        "summaryWBGT",
+        "N/A"
+    );
 
-            break;
+    setClass(
+        "wbgt",
+        "value grey-text"
+    );
+
+    break;
 
         case "Lightning":
 
-            lightningCount = null;
+    lightningCount = null;
 
-            setText(
-                "summaryLightning",
-                "N/A"
-            );
+    setText(
+        "summaryLightning",
+        "N/A"
+    );
 
-            document
-                .getElementById("lightningIcon")
-                ?.classList.remove("lightning-alert");
+    setClass(
+        "lightning",
+        "value grey-text"
+    );
 
-            document
-                .getElementById("lightning")
-                ?.classList.remove("lightning-alert");
+    document
+        .getElementById("lightningIcon")
+        ?.classList.remove("lightning-alert");
 
-            break;
+    document
+        .getElementById("lightning")
+        ?.classList.remove("lightning-alert");
+
+    break;
 
         case "PSI":
 
-            currentPSI = null;
+    currentPSI = null;
 
-            setText(
-                "summaryPSI",
-                "N/A"
-            );
+    setText(
+        "summaryPSI",
+        "N/A"
+    );
 
-            break;
+    setClass(
+        "psi",
+        "value grey-text"
+    );
 
-        case "Forecast":
-
-            currentForecast = "";
-
-            setText(
-                "summaryForecast",
-                "N/A"
-            );
-
-            setText(
-                "forecastArea",
-                "Data unavailable"
-            );
-
-            break;
+    break;
 
         case "Temperature":
 
-            currentTemperature = null;
-            break;
+    currentTemperature = null;
+
+    setClass(
+        "temperature",
+        "value grey-text"
+    );
+
+    break;
 
         case "Humidity":
 
-            currentHumidity = null;
-            break;
+    currentHumidity = null;
+
+    setClass(
+        "humidity",
+        "value grey-text"
+    );
+
+    break;
 
         case "Rainfall":
 
-            currentRainfall = null;
-            break;
+    currentRainfall = null;
+
+    setClass(
+        "rainfall",
+        "value grey-text"
+    );
+
+    break;
 
     }
 
