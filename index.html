@@ -567,6 +567,7 @@ let currentHumidity = null;
 let currentRainfall = null;
 
 let refreshInProgress = false;
+let dashboardInitialised = false;
 let pendingRefresh = false;
 let nextRefreshAt = null;
 let apiMessages = [];
@@ -1212,6 +1213,46 @@ function updateSafetyVisuals() {
     currentPSI === null ||
 
     currentForecast === "";
+    
+    if (!dashboardInitialised) {
+
+    if (
+        currentWBGT === null ||
+        lightningCount === null ||
+        currentPSI === null ||
+        currentForecast === ""
+    ) {
+
+        const banner =
+            document.getElementById("banner");
+
+        const advisory =
+            document.getElementById("advisory");
+
+        banner.classList.remove(
+            "banner-alert"
+        );
+
+        banner.textContent =
+            "🔄 INITIALISING LIVE DATA";
+
+        banner.style.background =
+            "#0284c7";
+
+        banner.style.color =
+            "#ffffff";
+
+        advisory.innerHTML =
+            "Loading weather feeds<br>" +
+            "Loading lightning observations<br>" +
+            "Loading PSI readings<br>" +
+            "Preparing dashboard status";
+
+        return;
+    }
+
+    dashboardInitialised = true;
+}
 
     if (currentWBGT !== null) {
         heatRisk =
