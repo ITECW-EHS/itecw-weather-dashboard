@@ -752,6 +752,22 @@ function clearFailedMetric(name) {
 
     break;
 
+    case "Forecast":
+
+    currentForecast = "";
+
+    setText(
+        "summaryForecast",
+        "N/A"
+    );
+
+    setText(
+        "forecastArea",
+        "Data unavailable"
+    );
+
+    break;
+
         case "Temperature":
 
     currentTemperature = null;
