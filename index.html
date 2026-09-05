@@ -1037,6 +1037,15 @@ function updateSafetyVisuals() {
     let observedLightningRisk = "UNKNOWN";
     let weatherRisk = "UNKNOWN";
     let overallLevel = "GREEN";
+    const criticalDataUnavailable =
+
+    currentWBGT === null ||
+
+    lightningCount === null ||
+
+    currentPSI === null ||
+
+    currentForecast === "";
 
     if (currentWBGT !== null) {
         heatRisk =
@@ -1093,10 +1102,25 @@ else{
         currentRainfall !== null && currentRainfall > 0;
 
     if (redCondition) {
-        overallLevel = "RED";
-    } else if (amberCondition) {
-        overallLevel = "AMBER";
-    }
+
+    overallLevel = "RED";
+
+}
+else if (criticalDataUnavailable) {
+
+    overallLevel = "UNKNOWN";
+
+}
+else if (amberCondition) {
+
+    overallLevel = "AMBER";
+
+}
+else {
+
+    overallLevel = "GREEN";
+
+}
 
     setText("heatRisk", heatRisk);
     setText("lightningRisk", observedLightningRisk);
@@ -1128,7 +1152,21 @@ else{
 
         ["weatherRisk", weatherRisk === "MONITOR" ? "amber" : "green"],
 
-        ["overallRisk", overallLevel.toLowerCase()]
+        [
+    "overallRisk",
+
+    overallLevel === "RED"
+        ? "red"
+
+        : overallLevel === "AMBER"
+        ? "amber"
+
+        : overallLevel === "UNKNOWN"
+        ? "grey"
+
+        : "green"
+]
+
     ];
 
     riskIds.forEach(([id, level]) => {
@@ -1141,10 +1179,15 @@ else{
         element.className =
             "risk-value " +
             (level === "red"
-                ? "red-text"
-                : level === "amber"
-                    ? "amber-text"
-                    : "green-text");
+    ? "red-text"
+
+    : level === "amber"
+    ? "amber-text"
+
+    : level === "grey"
+    ? "grey-text"
+
+    : "green-text");
     });
 
 const banner = document.getElementById("banner");
