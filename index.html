@@ -1318,18 +1318,21 @@ else {
 ],
 
         [
- "airRisk",
+    "airRisk",
 
- airRisk === "HAZARDOUS"
- ? "red"
+    airRisk === "UNKNOWN"
+        ? "grey"
 
- : airRisk === "VERY UNHEALTHY"
- ? "red"
+        : airRisk === "HAZARDOUS"
+        ? "red"
 
- : airRisk === "UNHEALTHY"
- ? "amber"
+        : airRisk === "VERY UNHEALTHY"
+        ? "red"
 
- : "green"
+        : airRisk === "UNHEALTHY"
+        ? "amber"
+
+        : "green"
 ],
 
         [
