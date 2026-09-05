@@ -462,6 +462,12 @@ body {
     <div id="apiStatus">
         Preparing API requests...
     </div>
+
+    <hr style="margin:12px 0; border-color:#365180;">
+
+<div id="dashboardHealth">
+    Initialising dashboard health...
+</div>
 </section>
 
 <footer class="footer">
@@ -666,6 +672,58 @@ function renderApiHealth() {
         "apiHealth"
     ).innerHTML = html;
 
+renderDashboardHealth();
+    
+}
+
+function renderDashboardHealth() {
+
+    const values =
+        Object.values(apiHealth);
+
+    const available =
+        values.filter(
+            status => status === "OK"
+        ).length;
+
+    const total =
+        values.length;
+
+    let state;
+
+    if (!dashboardInitialised) {
+
+        state = "🔄 Initialising";
+
+    }
+    else if (available === total) {
+
+        state = "✅ Healthy";
+
+    }
+    else {
+
+        state = "⚠️ Degraded";
+
+    }
+
+    document.getElementById(
+        "dashboardHealth"
+    ).innerHTML =
+        "Data Sources: " +
+        available +
+        "/" +
+        total +
+        " Available<br>" +
+
+        "Refresh State: " +
+        state +
+        "<br>" +
+
+        "Last Refresh: " +
+        document.getElementById(
+            "lastUpdated"
+        ).textContent;
 }
 
 function weatherIcon(forecast) {
@@ -1706,6 +1764,8 @@ document.addEventListener(
         updateClock();
 
         renderApiHealth();
+
+        renderDashboardHealth();
 
         refreshDashboard();
 
