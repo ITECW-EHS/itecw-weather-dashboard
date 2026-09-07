@@ -1079,6 +1079,11 @@ async function getLightning() {
     ? 5
     : readings.length;
 
+    console.log(
+    "Lightning API Data:",
+    readings
+);
+        
         setText("lightning", String(lightningCount));
         setText("summaryLightning", String(lightningCount));
 
