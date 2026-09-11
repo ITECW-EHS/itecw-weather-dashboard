@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ITE College West Weather &amp; Outdoor Work Dashboard v1.6.0</title>
+<title>ITE College West Weather &amp; Outdoor Work Dashboard v1.6.1</title>
 <style>
 :root{--page-bg:#07142f;--card-bg:#223966;--card-border:#365180;--text:#fff;--muted:#b9c7df;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--blue:#38bdf8;--grey:#64748b}
 *{box-sizing:border-box}body{margin:0;padding:24px;background:var(--page-bg);color:var(--text);font-family:"Segoe UI",Arial,sans-serif}.header{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:18px}.header h1{margin:0;font-size:clamp(28px,4vw,48px);line-height:1.15}.version{margin-top:8px;color:var(--muted);font-size:14px}.clock-panel{text-align:right;white-space:nowrap}#clock{font-size:18px;font-weight:700}.small{margin-top:14px;color:var(--muted);font-size:12px}.zone-control{display:flex;justify-content:center;align-items:center;gap:10px;margin:0 0 18px;padding:12px 14px;border:1px solid var(--card-border);border-radius:10px;background:rgba(34,57,102,.65)}.zone-control label{font-weight:700}.zone-control select{min-width:150px;padding:8px 10px;border:1px solid var(--card-border);border-radius:8px;background:var(--card-bg);color:var(--text);font:inherit}.zone-control select:focus{outline:2px solid var(--blue);outline-offset:2px}#banner{margin:20px 0 14px;padding:22px;border-radius:16px;text-align:center;font-size:clamp(24px,3vw,38px);font-weight:800;background:var(--grey);color:#fff}.summary-bar{display:grid;grid-template-columns:repeat(4,minmax(130px,1fr));gap:10px;margin-bottom:18px}.summary-item{padding:12px 14px;border:1px solid var(--card-border);border-radius:10px;background:rgba(34,57,102,.65)}.summary-label{display:block;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.5px}.summary-value{display:block;margin-top:4px;font-weight:700}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}.card{min-height:205px;padding:24px;border:1px solid var(--card-border);border-radius:16px;background:var(--card-bg);box-shadow:0 8px 24px rgba(0,0,0,.18)}.card h2{margin:0 0 24px;font-size:21px}.metric-row{display:flex;align-items:center;gap:12px}.metric-icon{font-size:38px}.value{font-size:clamp(40px,5vw,58px);font-weight:800;line-height:1}.status-chip{display:inline-block;margin-top:18px;padding:6px 11px;border-radius:999px;background:var(--grey);color:#fff;font-size:13px;font-weight:700;text-transform:uppercase}.forecast-value{font-size:26px;font-weight:700;line-height:1.4}.advisory{font-size:18px;line-height:1.65}.risk-list{display:grid;gap:12px}.risk-row{display:flex;justify-content:space-between;gap:15px;padding-bottom:9px;border-bottom:1px solid rgba(255,255,255,.12)}.risk-value{font-weight:800}.api-panel{margin-top:18px;padding:14px 16px;border:1px solid var(--card-border);border-radius:12px;background:rgba(34,57,102,.55)}.api-panel h3{margin:0 0 8px;font-size:15px}#apiStatus{color:var(--muted);font-size:13px}.footer{margin-top:20px;padding-top:15px;border-top:1px solid var(--card-border);color:var(--muted);font-size:13px;line-height:1.7}.green-text{color:var(--green)}.amber-text{color:var(--amber)}.red-text{color:var(--red)}.blue-text{color:var(--blue)}.grey-text{color:var(--muted)}@keyframes lightningBlink{0%,100%{opacity:1}50%{opacity:.25}}.lightning-alert{animation:lightningBlink 1s infinite}@keyframes bannerBlink{0%,100%{opacity:1}50%{opacity:.6}}.banner-alert{animation:bannerBlink 1s infinite}@media(max-width:760px){body{padding:15px}.header{flex-direction:column}.clock-panel{text-align:left}.summary-bar{grid-template-columns:repeat(2,1fr)}.card{min-height:auto}}@media(max-width:430px){.summary-bar{grid-template-columns:1fr}}
@@ -13,7 +13,7 @@
 </style>
 </head>
 <body>
-<header class="header"><div><h1>ITE College West Weather &amp; Outdoor Work Dashboard</h1><div class="version" title="Fixed West Region | Forecast Mapping Integrity | Operational Awareness Enhancement">Version 1.6.0 | MSS Location-Based Lightning Risk</div></div><div class="clock-panel"><div id="clock">Loading time...</div><div class="small">Singapore Time</div><div class="active-region"><span class="active-region-label">SITE REGION</span><span id="activeRegion" class="active-region-value">WEST</span></div><button id="manualRefresh" class="manual-refresh" type="button">Refresh Now</button></div></header>
+<header class="header"><div><h1>ITE College West Weather &amp; Outdoor Work Dashboard</h1><div class="version" title="Fixed West Region | Forecast Mapping Integrity | Operational Awareness Enhancement">Version 1.6.1 | WBGT Payload Validation</div></div><div class="clock-panel"><div id="clock">Loading time...</div><div class="small">Singapore Time</div><div class="active-region"><span class="active-region-label">SITE REGION</span><span id="activeRegion" class="active-region-value">WEST</span></div><button id="manualRefresh" class="manual-refresh" type="button">Refresh Now</button></div></header>
 <section id="banner">CHECKING LIVE CONDITIONS</section>
 <section class="summary-bar"><div class="summary-item"><span class="summary-label">WBGT</span><span id="summaryWBGT" class="summary-value">Loading...</span></div><div class="summary-item"><span id="psiRegionLabel" class="summary-label">PSI WEST</span><span id="summaryPSI" class="summary-value">Loading...</span></div><div class="summary-item"><span class="summary-label">Nearest Lightning</span><span id="summaryLightning" class="summary-value">Loading...</span></div><div class="summary-item"><span class="summary-label">Forecast</span><span id="summaryForecast" class="summary-value">Loading...</span></div></section>
 <main class="grid">
@@ -28,13 +28,13 @@
 <section class="card"><h2>Risk Matrix</h2><div class="risk-list"><div class="risk-row"><span>Heat stress</span><span id="heatRisk" class="risk-value">Loading...</span></div><div class="risk-row"><span>Lightning</span><span id="lightningRisk" class="risk-value">Loading...</span></div><div class="risk-row"><span>Air quality</span><span id="airRisk" class="risk-value">Loading...</span></div><div class="risk-row"><span>Weather</span><span id="weatherRisk" class="risk-value">Loading...</span></div><div class="risk-row"><span>Overall</span><span id="overallRisk" class="risk-value">Loading...</span></div></div></section>
 </main>
 <section class="api-panel"><h3>System Health</h3><div id="apiHealth">Loading health status...</div><div id="apiStatus">Preparing API requests...</div><hr style="margin:12px 0;border-color:#365180"><div id="dashboardHealth">Initialising dashboard health...</div></section>
-<footer class="footer"><div>Last successful dashboard update: <span id="lastUpdated">Not yet updated</span></div><div>Next scheduled refresh: <span id="nextRefresh">Not scheduled</span></div><div>Refresh interval: 5 minutes</div><div>Data source: NEA and Meteorological Service Singapore datasets via data.gov.sg</div><div>Decision-support display only. Apply approved site procedures, official lightning alerts, risk assessments and supervisor instructions before starting or continuing outdoor work. Lightning payload validation is enabled for schema monitoring during the pilot.</div><div>Created by Kelvin Siow</div><div class="footer-summary"><strong>Dashboard Status</strong><br>Health: <span id="footerHealth">Initialising</span><br>Site Region: <span id="footerRegion">WEST</span></div><div class="data-legend"><strong>Data Classification</strong><div class="data-legend-grid"><div><span class="legend-label">WBGT:</span> <span class="legend-scope">National feed</span></div><div><span class="legend-label">Lightning:</span> <span class="legend-scope">MSS locations assessed from ITE College West: Red ≤8 km; Amber >8-15 km; Green >15 km or none</span></div><div><span class="legend-label">PSI:</span> <span class="legend-scope">West region</span></div><div><span class="legend-label">Forecast:</span> <span class="legend-scope">Choa Chu Kang, then Tengah</span></div><div><span class="legend-label">Temperature:</span> <span class="legend-scope">Nearest available West-region station</span></div><div><span class="legend-label">Humidity:</span> <span class="legend-scope">Nearest available West-region station</span></div><div><span class="legend-label">Rainfall:</span> <span class="legend-scope">Nearest available West-region station</span></div></div></div></footer>
+<footer class="footer"><div>Last successful dashboard update: <span id="lastUpdated">Not yet updated</span></div><div>Next scheduled refresh: <span id="nextRefresh">Not scheduled</span></div><div>Refresh interval: 5 minutes</div><div>Data source: NEA and Meteorological Service Singapore datasets via data.gov.sg</div><div>Decision-support display only. Apply approved site procedures, official lightning alerts, risk assessments and supervisor instructions before starting or continuing outdoor work. Lightning and WBGT payload validation are enabled for schema monitoring during the pilot.</div><div>Created by Kelvin Siow</div><div class="footer-summary"><strong>Dashboard Status</strong><br>Health: <span id="footerHealth">Initialising</span><br>Site Region: <span id="footerRegion">WEST</span></div><div class="data-legend"><strong>Data Classification</strong><div class="data-legend-grid"><div><span class="legend-label">WBGT:</span> <span class="legend-scope">Live feed under payload and location validation</span></div><div><span class="legend-label">Lightning:</span> <span class="legend-scope">MSS locations assessed from ITE College West: Red ≤8 km; Amber >8-15 km; Green >15 km or none</span></div><div><span class="legend-label">PSI:</span> <span class="legend-scope">West region</span></div><div><span class="legend-label">Forecast:</span> <span class="legend-scope">Choa Chu Kang, then Tengah</span></div><div><span class="legend-label">Temperature:</span> <span class="legend-scope">Nearest available West-region station</span></div><div><span class="legend-label">Humidity:</span> <span class="legend-scope">Nearest available West-region station</span></div><div><span class="legend-label">Rainfall:</span> <span class="legend-scope">Nearest available West-region station</span></div></div></div></footer>
 <script>
 "use strict";
 /* =====================================================
    ITE College West Weather Dashboard
-   Version: 1.6.0
-   Release: MSS Location-Based Lightning Risk
+   Version: 1.6.1
+   Release: WBGT Payload Validation
 
    Critical updates aligned from Singapore Dashboard v2.4.1:
    - Explicit API health labels and icons
@@ -49,6 +49,7 @@
    - Configured Amber threshold above 8 km to 15 km
    - Singapore-wide count no longer drives campus RED status
    - Persistent MSS payload schema validation with change-only console logging
+   - Permanent WBGT payload, station and coordinate validation
 ===================================================== */
 const REFRESH_INTERVAL_MS=300000,REQUEST_GAP_MS=1800;
 const TEST_MODE={LIGHTNING:false,PSI:false,WBGT:false,RAINFALL:false};
@@ -61,6 +62,13 @@ const TEST_MODE={LIGHTNING:false,PSI:false,WBGT:false,RAINFALL:false};
 */
 const LIGHTNING_VALIDATION={ENABLED:true,SAMPLE_LIMIT:5,LOG_ON_SCHEMA_CHANGE_ONLY:true};
 let lastLightningSchemaSignature="";
+/*
+   WBGT PAYLOAD VALIDATION
+   Diagnostic only. The validator does not alter WBGT selection or safety
+   thresholds. It logs when the payload schema changes or validation fails.
+*/
+const WBGT_VALIDATION={ENABLED:true,SAMPLE_LIMIT:5,LOG_ON_SCHEMA_CHANGE_ONLY:true};
+let lastWBGTSchemaSignature="";
 const API={WBGT:"https://api-open.data.gov.sg/v2/real-time/api/weather?api=wbgt",LIGHTNING:"https://api-open.data.gov.sg/v2/real-time/api/weather?api=lightning",PSI:"https://api-open.data.gov.sg/v2/real-time/api/psi",FORECAST:"https://api-open.data.gov.sg/v2/real-time/api/two-hr-forecast",TEMPERATURE:"https://api-open.data.gov.sg/v2/real-time/api/air-temperature",HUMIDITY:"https://api-open.data.gov.sg/v2/real-time/api/relative-humidity",RAINFALL:"https://api-open.data.gov.sg/v2/real-time/api/rainfall"};
 const FORECAST_FALLBACKS={west:["Choa Chu Kang","Tengah"]};
 /* Representative points used only to select the nearest available station. */
@@ -126,13 +134,68 @@ function validateLightningPayload(payload,readings){
     return result;
 }
 function assessLightningReadings(readings){if(TEST_MODE.LIGHTNING)return{total:5,nearby:1,nearestKm:5,risk:"RED"};if(!readings.length)return{total:0,nearby:0,nearestKm:null,risk:"CLEAR"};const distances=readings.map(lightningLocation).filter(p=>Number.isFinite(p.latitude)&&Number.isFinite(p.longitude)).map(p=>haversineKm(ITE_CW_LOCATION,p));if(!distances.length)throw new Error("Lightning observation coordinates were not found");const nearestKm=Math.min(...distances),nearby=distances.filter(d=>d<=LIGHTNING_AMBER_KM).length,risk=nearestKm<=LIGHTNING_RED_KM?"RED":nearestKm<=LIGHTNING_AMBER_KM?"AMBER":"CLEAR";return{total:readings.length,nearby,nearestKm,risk}}
+function validateWBGTPayload(payload,readings){
+    const record=payload?.data?.records?.[0];
+    const item=record?.item;
+    const first=readings?.[0];
+    const sample=Array.isArray(readings)?readings.slice(0,WBGT_VALIDATION.SAMPLE_LIMIT):[];
+    const sampleResults=sample.map((reading,index)=>{
+        const location=reading?.location||reading?.coordinates||reading?.coordinate||{};
+        const latitude=Number(location.latitude??location.lat??reading?.latitude??reading?.lat);
+        const longitude=Number(location.longitude??location.lon??location.lng??reading?.longitude??reading?.lon??reading?.lng);
+        const stationId=reading?.stationId??reading?.station_id??reading?.station??reading?.id??reading?.deviceId??reading?.device_id??null;
+        const stationName=reading?.stationName??reading?.station_name??reading?.name??null;
+        return{index,wbgt:reading?.wbgt,heatStress:reading?.heatStress,stationId,stationName,latitude,longitude,hasCoordinates:Number.isFinite(latitude)&&Number.isFinite(longitude),keys:Object.keys(reading||{}).join(", ")};
+    });
+    const signature=JSON.stringify({recordKeys:Object.keys(record||{}).sort(),itemKeys:Object.keys(item||{}).sort(),readingKeys:Object.keys(first||{}).sort()});
+    const validWBGTCount=Array.isArray(readings)?readings.filter(reading=>Number.isFinite(Number(reading?.wbgt))).length:0;
+    const result={readingsArray:Array.isArray(readings),readingCount:Array.isArray(readings)?readings.length:0,validWBGTCount,firstReadingHasWBGT:Number.isFinite(Number(first?.wbgt)),firstReadingHasHeatStress:typeof first?.heatStress==="string",stationInformationDetected:sampleResults.some(result=>result.stationId!==null||result.stationName!==null),coordinateInformationDetected:sampleResults.some(result=>result.hasCoordinates),schemaSignature:signature};
+    const schemaChanged=signature!==lastWBGTSchemaSignature;
+    const validationFailed=!result.readingsArray||result.readingCount===0||result.validWBGTCount===0;
+    if(WBGT_VALIDATION.ENABLED&&(!WBGT_VALIDATION.LOG_ON_SCHEMA_CHANGE_ONLY||schemaChanged||validationFailed)){
+        console.groupCollapsed(`[WBGT Validation] ${validationFailed?"FAILED":"PASS"} | readings: ${result.readingCount} | valid WBGT: ${result.validWBGTCount}`);
+        console.log("Payload record keys:",Object.keys(record||{}));
+        console.log("Payload item keys:",Object.keys(item||{}));
+        console.log("First WBGT reading:",first??"No WBGT reading returned");
+        console.table(sampleResults);
+        console.log("WBGT validation result:",result);
+        console.groupEnd();
+    }
+    lastWBGTSchemaSignature=signature;
+    if(!result.readingsArray)throw new Error("WBGT readings were not an array");
+    if(result.readingCount===0)throw new Error("WBGT readings array was empty");
+    if(result.validWBGTCount===0)throw new Error("WBGT payload validation failed: no valid WBGT values");
+    return result;
+}
 function selectRegionalReading(payload,zone){const stations=getStations(payload),readings=getStationReadings(payload),target=ZONE_REFERENCE_POINTS[zone];if(!target||!stations.length||!readings.length)throw new Error(`Regional station data was not found for ${zone}`);const values=new Map(readings.map(r=>[String(stationIdOf(r)),r?.value]));const ranked=stations.map(s=>{const id=String(stationIdOf(s)),loc=stationLocation(s);return{s,id,loc,value:values.get(id),distance:Number.isFinite(loc.latitude)&&Number.isFinite(loc.longitude)?haversineKm(target,loc):Infinity}}).filter(x=>x.value!==undefined&&x.value!==null&&Number.isFinite(Number(x.value))).sort((a,b)=>a.distance-b.distance);if(!ranked.length)throw new Error(`No active regional station reading was found for ${zone}`);const x=ranked[0];return{value:Number(x.value),stationName:x.s?.name||x.id,stationId:x.id,distanceKm:x.distance}}
 function stationText(r,zone){const distance=Number.isFinite(r.distanceKm)?r.distanceKm.toFixed(1)+" km":"Not available";return`Station: ${r.stationName} | ID: ${r.stationId} | Distance: ${distance} | Region: ${zone.toUpperCase()}`}
 function clearFailedMetric(n){if(n==="WBGT"){currentWBGT=null;currentHeatStress="";setText("summaryWBGT","N/A");setClass("wbgt","value grey-text")}else if(n==="Lightning"){lightningCount=null;totalLightningCount=null;nearestLightningKm=null;lightningRiskLevel="UNKNOWN";setText("summaryLightning","N/A");setClass("lightning","value grey-text");document.getElementById("lightningIcon")?.classList.remove("lightning-alert");document.getElementById("lightning")?.classList.remove("lightning-alert")}else if(n==="PSI"){currentPSI=null;setText("summaryPSI","N/A");setClass("psi","value grey-text")}else if(n==="Forecast"){currentForecast="";setText("summaryForecast","N/A");setText("forecastArea","Data unavailable")}else if(n==="Temperature"){currentTemperature=null;setClass("temperature","value grey-text");setText("temperatureStation","Regional station unavailable")}else if(n==="Humidity"){currentHumidity=null;setClass("humidity","value grey-text");setText("humidityStation","Regional station unavailable")}else if(n==="Rainfall"){currentRainfall=null;setClass("rainfall","value grey-text");setText("rainfallStation","Regional station unavailable")}}
 function showApiFailure(card,status,name,error){clearFailedMetric(name);const limited=error.message==="RATE_LIMITED";apiHealth[name]=limited?"RATE_LIMITED":"UNAVAILABLE";renderApiHealth();if(card)setText(card,limited?"API Busy":"N/A");if(status)setChip(status,limited?"Retry next refresh":"Unavailable","#64748b");recordApiStatus(name,limited?"Rate limited":"Unavailable");console.error(name+" error:",error)}
 function updateActiveRegion(){const label=currentZone.toUpperCase();setText("activeRegion",label);setText("footerRegion",label)}
 function updateClock(){setText("clock",formatSingaporeDate(new Date()));updateActiveRegion();if(nextRefreshAt)setText("nextRefresh",formatSingaporeDate(nextRefreshAt))}
-async function getWBGT(){try{const p=await fetchJson(API.WBGT,"WBGT"),r=p?.data?.records?.[0]?.item?.readings?.[0];if(!r)throw new Error("WBGT reading was not found");currentWBGT=TEST_MODE.WBGT?33.5:Number(r.wbgt);currentHeatStress=String(r.heatStress||"");setText("wbgt",currentWBGT.toFixed(1)+"°C");setText("wbgtTime","Heat stress: "+(currentHeatStress||"Not stated"));setText("summaryWBGT",currentWBGT.toFixed(1)+"°C");if(currentWBGT>=32||currentHeatStress.toLowerCase()==="high"){setClass("wbgt","value red-text");setChip("wbgtStatus","High","#ef4444")}else if(currentWBGT>=31||currentHeatStress.toLowerCase()==="moderate"){setClass("wbgt","value amber-text");setChip("wbgtStatus","Moderate","#f59e0b")}else{setClass("wbgt","value green-text");setChip("wbgtStatus","Low","#22c55e")}}catch(e){showApiFailure("wbgt","wbgtStatus","WBGT",e)}}
+async function getWBGT(){
+    try{
+        const payload=await fetchJson(API.WBGT,"WBGT");
+        const readings=payload?.data?.records?.[0]?.item?.readings;
+        if(!Array.isArray(readings))throw new Error("WBGT readings were not found");
+        validateWBGTPayload(payload,readings);
+        const reading=readings[0];
+        if(!reading)throw new Error("WBGT reading was not found");
+        currentWBGT=TEST_MODE.WBGT?33.5:Number(reading.wbgt);
+        currentHeatStress=String(reading.heatStress||"");
+        if(!Number.isFinite(currentWBGT))throw new Error("WBGT value was invalid");
+        setText("wbgt",currentWBGT.toFixed(1)+"°C");
+        setText("wbgtTime","Heat stress: "+(currentHeatStress||"Not stated")+` | Source readings: ${readings.length}`);
+        setText("summaryWBGT",currentWBGT.toFixed(1)+"°C");
+        if(currentWBGT>=32||currentHeatStress.toLowerCase()==="high"){
+            setClass("wbgt","value red-text");setChip("wbgtStatus","High","#ef4444");
+        }else if(currentWBGT>=31||currentHeatStress.toLowerCase()==="moderate"){
+            setClass("wbgt","value amber-text");setChip("wbgtStatus","Moderate","#f59e0b");
+        }else{
+            setClass("wbgt","value green-text");setChip("wbgtStatus","Low","#22c55e");
+        }
+    }catch(error){showApiFailure("wbgt","wbgtStatus","WBGT",error)}
+}
 async function getLightning(){try{const p=await fetchJson(API.LIGHTNING,"Lightning"),readings=p?.data?.records?.[0]?.item?.readings;if(!Array.isArray(readings))throw new Error("Lightning readings were not found");validateLightningPayload(p,readings);const a=assessLightningReadings(readings);totalLightningCount=a.total;lightningCount=a.nearby;nearestLightningKm=a.nearestKm;lightningRiskLevel=a.risk;const display=nearestLightningKm===null?"None":nearestLightningKm.toFixed(1)+" km";setText("lightning",display);setText("summaryLightning",display);const icon=document.getElementById("lightningIcon"),value=document.getElementById("lightning");icon?.classList.remove("lightning-alert");value?.classList.remove("lightning-alert");if(lightningRiskLevel==="RED"){setClass("lightning","value red-text");setChip("lightningStatus","Within 8 km","#ef4444");icon?.classList.add("lightning-alert");value?.classList.add("lightning-alert")}else if(lightningRiskLevel==="AMBER"){setClass("lightning","value amber-text");setChip("lightningStatus","Within 15 km","#f59e0b")}else{setClass("lightning","value green-text");setChip("lightningStatus",totalLightningCount===0?"No observation":"Beyond 15 km","#22c55e")}}catch(e){showApiFailure("lightning","lightningStatus","Lightning",e)}}
 async function getPSI(zone=currentZone){try{const p=await fetchJson(API.PSI,"PSI"),v=p?.data?.items?.[0]?.readings?.psi_twenty_four_hourly?.[zone];if(v==null)throw new Error(`PSI ${zone} reading was not found`);currentPSI=TEST_MODE.PSI?350:Number(v);const z=zone.toUpperCase();setText("psiRegionLabel",`PSI ${z}`);setText("psiRegionTitle",`PSI (${z})`);setText("psiRegionDescription",`24-hour PSI, ${z} region`);setText("psi",String(currentPSI));setText("summaryPSI",String(currentPSI));if(currentPSI>300){setClass("psi","value red-text");setChip("psiStatus","Hazardous","#7f1d1d")}else if(currentPSI>200){setClass("psi","value red-text");setChip("psiStatus","Very Unhealthy","#ef4444")}else if(currentPSI>100){setClass("psi","value amber-text");setChip("psiStatus","Unhealthy","#f59e0b")}else{setClass("psi","value green-text");setChip("psiStatus","Good / Moderate","#22c55e")}}catch(e){showApiFailure("psi","psiStatus","PSI",e)}}
 async function getTemperature(zone=currentZone){try{const p=await fetchJson(API.TEMPERATURE,"Temperature"),r=selectRegionalReading(p,zone);currentTemperature=r.value;setText("temperature",currentTemperature.toFixed(1)+"°C");setText("temperatureStation",stationText(r,zone));setClass("temperature","value blue-text");setChip("temperatureStatus",`${zone} station`,"#0284c7")}catch(e){showApiFailure("temperature","temperatureStatus","Temperature",e)}}
